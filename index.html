@@ -155,6 +155,84 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-simhash" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/18/simhash/">Simhash算法介绍</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/18/simhash/" class="archive-article-date">
+  	<time datetime="2019-11-18T12:20:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Simhash的生成及存储</strong></p>
+<p><strong>一、背景介绍</strong></p>
+<p>根据 <em>Detecting Near-Duplicates for Web Crawling</em> 论文中的介绍，在互联网中有很多网页的内容是一样的，但是它们的网页元素却不是完全相同的。每个域名下的网页总会有一些自己的东西，比如广告、导航栏、网站版权之类的东西，但是对于搜索引擎来讲，只有内容部分才是有意义的，虽然网页元素不同，但是对搜索结果没有任何影响，所以在判定内容是否重复的时候，应该忽视后面的部分。当新爬取的内容和数据库中的某个网页的内容一样的时候，就称其为Near-Duplicates（重复文章）。对于重复文章，不应再执行入库操作，这种操作的优点是(A)节省带宽、(B)节省磁盘、(C)减轻服务器负荷以及(D)去除相似文章噪点干扰，提升索引的质量。</p>
+        
+          <a class="article-more-a" href="/2019/11/18/simhash/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color5">algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/18/simhash/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-disruptor3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -175,7 +253,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。</p>
+        <p><strong>写入 Ringbuffer</strong></p>
+<p>本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。</p>
 <p>作者：Trisha 廖涵译</p>
 <p>这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。</p>
         
@@ -794,11 +873,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">concurrent</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">concurrent</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">

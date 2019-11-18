@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>如何使用 Disruptor（三） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。 作者：Trisha 廖涵译 这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。">
+  <meta name="description" content="写入 Ringbuffer 本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。 作者：Trisha 廖涵译 这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。">
 <meta name="keywords" content="concurrent">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何使用 Disruptor（三）">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;disruptor3&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。 作者：Trisha 廖涵译 这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。">
+<meta property="og:description" content="写入 Ringbuffer 本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。 作者：Trisha 廖涵译 这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;s_782643296.jpeg">
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;aegbsvty487.jpeg">
@@ -23,7 +23,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;ovuahxbw728.jpeg">
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;lfmwgd6g622.jpeg">
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;m4n2n-h4811.jpeg">
-<meta property="og:updated_time" content="2019-11-18T12:16:04.394Z">
+<meta property="og:updated_time" content="2019-11-18T12:19:40.340Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;s_782643296.jpeg">
   
@@ -185,7 +185,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。</p>
+        <p><strong>写入 Ringbuffer</strong></p>
+<p>本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。</p>
 <p>作者：Trisha 廖涵译</p>
 <p>这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。</p>
 <a id="more"></a>
@@ -342,6 +343,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2019/11/18/simhash/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Simhash算法介绍
+        
+      </div>
+    </a>
+  
   
     <a href="/2019/11/18/disruptor2/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">如何使用Disruptor（二）</div>
@@ -470,11 +480,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">concurrent</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">concurrent</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
