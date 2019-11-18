@@ -19,7 +19,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;4b066988419.webp">
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;ce3bfe6cde9.webp">
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;1505a09f64e.webp">
-<meta property="og:updated_time" content="2019-11-18T13:27:53.166Z">
+<meta property="og:updated_time" content="2019-11-18T13:35:49.322Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;4b066988419.webp">
   
@@ -65,6 +65,10 @@
 				<li><a href="/">主页</a></li>
 	        
 				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+	        
+				<li><a href="/tags/%E5%86%99%E4%BD%9C/">写作</a></li>
+	        
+				<li><a href="/tags/%E7%94%BB%E5%BB%8A/">画廊</a></li>
 	        
 			</ul>
 		</nav>
@@ -124,6 +128,10 @@
 			
 				
 			
+				
+			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -141,12 +149,16 @@
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 25%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 25%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+		        
+					<li style="width: 25%"><a href="/tags/%E5%86%99%E4%BD%9C/">写作</a></li>
+		        
+					<li style="width: 25%"><a href="/tags/%E7%94%BB%E5%BB%8A/">画廊</a></li>
 		        
 				</ul>
 			</nav>
@@ -240,7 +252,6 @@
 <p>1.选择<strong>结束最早</strong>的课，便是要在这教室上课的第一节课</p>
 <p>2.接下来，选择第一堂课结束后才开始的课，并且结束最早的课，这将是第二节在教室上的课。</p>
 <p><img src="https://www.smartonline.net.cn/asserts/4b066988419.webp" alt="img"></p>
-<p>image</p>
 <p>重复这样做就能找出答案，这边的选择策略便是结束最早且和上一节课不冲突的课进行排序，因为每次都选择结束最早的，所以留给后面的时间也就越多，自然就能排下越多的课了。</p>
 <p>每一节课的选择都是策略内的局部最优解(留给后面的时间最多)，所以最终的结果也是近似最优解(这个案例上就是最优解)。</p>
 <p>(该案例的代码实现，就是一个简单的时间遍历比较过程)</p>
@@ -330,7 +341,6 @@
 </tr>
 </tbody></table>
 <p><img src="https://www.smartonline.net.cn/asserts/ce3bfe6cde9.webp" alt="img"></p>
-<p>image</p>
 <p>如何找出覆盖所有地区的广播台的集合呢，听起来容易，实现起来很复杂，使用穷举法实现：</p>
 <p>(1) 列出每个可能的广播台的集合，这被称为幂集。假设总的有n个广播台，则广播台的组合总共有2ⁿ个【由组合及二项式定理得出：C(n,1)+C(n,2)+C(n,3)+…+C(n,n) = 2^n】</p>
 <p>(2) 在这些集合中，选出覆盖全部地区的最小的集合，假设n不在，但是当n非常大的时候，假设每秒可以计算10个子集</p>
@@ -414,7 +424,6 @@
 <p>旅行商问题</p>
 <p>假设有旅行商需要从下面三个城市的某一个城市出发，如何规划路线获取行程的最短路径。</p>
 <p><img src="https://www.smartonline.net.cn/asserts/1505a09f64e.webp" alt="img"></p>
-<p>image</p>
 <p>存在3！(阶乘)=6种可能情况:</p>
 <p>A-&gt;B-&gt;C A-&gt;C-&gt;B B-&gt;A-&gt;C B-&gt;C-&gt;A C-&gt;A-&gt;B C-&gt;B-&gt;A </p>
 <p>这边和之前求最短路径的算法(广度搜索、狄克斯特拉、贝尔曼-福特)，最大的差别是没有固定源点(起点),，每一个节点都可能是源点，并且需要经过每一个节点，所以若穷举法则不得不找出每一种可能并进行比较。</p>
@@ -730,11 +739,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">tools</a>
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
