@@ -155,6 +155,183 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-TF-IDF" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/18/TF-IDF/">TF-IDF算法介绍</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/18/TF-IDF/" class="archive-article-date">
+  	<time datetime="2019-11-18T11:14:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>TF-IDF是什么</strong></p>
+<p>TF-IDF是一种统计方法，用以评估一个词对于一篇文章或语料库中一篇文章的重要性。字词的重要性随着它在文件中出现的次数成正比增加，但同时会随着它在语料库中出现的频率成反比下降。</p>
+<p><strong>TF-IDF的使用场景</strong></p>
+<p>TF-IDF加权的各种形式常被搜索引擎应用，作为文件与用户查询之间相关程度的度量或评级。除了TF-IDF以外，因特网上的搜索引擎还会使用基于链接分析的评级方法，以确定文件在搜寻结果中出现的顺序。</p>
+<p><strong>TF-IDF原理</strong></p>
+<ul>
+<li>TF（Term Frequency) 表示词频，即一个词在在一篇文章中出现的次数，但在实际应用时会有一个漏洞，就是篇幅长的文章给定词出现的次数会更多一点。因此我们需要对次数进行归一化，通常用给定词的次数除以文章的总词数。</li>
+</ul>
+<p><img src="https://math.jianshu.com/math?formula=TF_w%20%3D%20%5Cfrac%7BC_w%7D%7BC%7D" alt="img"></p>
+<p>这其中还有一个漏洞，就是 ”的“ ”是“ ”啊“ 等类似的词在文章中出现的此时是非常多的，但是这些大多都是没有意义词，对于判断文章的关键词几乎没有什么用处，我们称这些词为”停用词“，也就是说，在度量相关性的时候不应该考虑这些词的频率。</p>
+<ul>
+<li>IDF（Inverse Document Frequency）逆文本频率指数，如果包含关键词w的文档越少，则说明关键词w具有很好的类别区分能力。某一关键词的IDF，可以用总的文章数量除以包含该关键词的文章的数量，然后对结果取对数得到</li>
+</ul>
+<p><img src="https://math.jianshu.com/math?formula=IDF_w%20%3D%20%5Clog(%5Cfrac%7BC%7D%7BC_w%20%2B%201%7D)" alt="img"></p>
+<p> 注：分母加1是为了避免没有包含关键词的文章时分母是0的情况</p>
+<p>一个词预测主题的能力越强，权重就越大，反之，权重越小，因此一个词的TF-IDF就是：</p>
+<p><img src="https://math.jianshu.com/math?formula=TF-IDF%20%3D%20TF*IDF" alt="img"></p>
+<p><strong>实际应用</strong></p>
+<p>通常在新闻的分类，或者说文章的分类的时候我们会用到ID-IDF。如果让编辑来对新闻或者文章分类，他一定要先读懂文章，然后找出主题，最后根据主题的不同对文章进行分类。而让电脑对文章进行分类，就要求我们先把文字的文章变成一组可以计算的数字，然后通过算法来算出文章的相似性。</p>
+<p>首先我们先来看怎么用一组数字（或者说一个向量）来表示一篇文章。对于一篇文章的所有实词（除去无意义的停用词），计算出他们的TF-IDF值，把这些值按照对应的实词在词汇表的位置依次排列，就得到了一个向量。比如，词汇表中有64000个词，其编号和词：</p>
+<table>
+<thead>
+<tr>
+<th>单词编号</th>
+<th>汉字词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>阿</td>
+</tr>
+<tr>
+<td>2</td>
+<td>啊</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>789</td>
+<td>服装</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>64000</td>
+<td>做作</td>
+</tr>
+</tbody></table>
+<p>在某一篇文章中，文章中的词的TF-IDF值对应为：</p>
+<table>
+<thead>
+<tr>
+<th>单词编号</th>
+<th>TF-IDF</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.0034</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>789</td>
+<td>0.034</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>64000</td>
+<td>0.075</td>
+</tr>
+</tbody></table>
+<p>如果单词表的某个词在文章中没有出现，对应的值为零，这样我们就得到了一个64000维的向量，我们称为这篇文章的特征向量。然后每篇文章就可以用一个向量来表示，这样我们就可以计算文章之间的相似程度了。</p>
+<p>向量的夹角是衡量两个向量相近程度的度量。因此，可以通过计算两篇文章的特征向量的夹角来判断两篇文章的主题的接近程度。那么我们就需要用余弦地理了。</p>
+<p><img src="https://www.smartonline.net.cn/asserts/bdb304120a1.webp" alt="img"></p>
+<p>∠A的余弦值为：</p>
+<p><img src="https://math.jianshu.com/math?formula=cosA%20%3D%20%5Cfrac%7Bb%5E2%2Bc%5E2-a%5E2%7D%7B2bc%7D" alt="img"></p>
+<p>如果将三角形的两边b和c看成是两个以A为起点的向量，那么上述公式等于：</p>
+<p><img src="https://math.jianshu.com/math?formula=cosA%3D%5Cfrac%7B%3Cb%2Cc%3E%7D%7B%7Cb%7C%C2%B7%7Cc%7C%7D" alt="img"></p>
+<p>其中，分母便是两个向量b和c的长度，分子表示两个向量的内积。假设文章X和文章Y对应的向量是</p>
+<p><img src="https://math.jianshu.com/math?formula=X_1%2CX_2%2C...%2CX_%7B64000%7D%E5%92%8CY_1%2CY_2%2C...%2CY_%7B64000%7D" alt="img"></p>
+<p>那么他们的夹角的余弦等于</p>
+<p><img src="https://math.jianshu.com/math?formula=cos%CE%B8%3D%5Cfrac%7Bx_1y_1%2Bx_2y_2%2B...%2Bx_%7B64000%7Dy_%7B64000%7D%7D%7B%5Csqrt%7Bx_1%5E2%2Bx_2%5E2%2Bx_%7B64000%7D%5E2%7D%5Ccdot%5Csqrt%7By_1%5E2%2By_2%5E2%2By_%7B64000%7D%5E2%7D%7D" alt="img"></p>
+<p>由于向量中的每一个变量都是正数，所以余弦的取值在0到1之间。当两篇文章向量的余弦等于1时，这两个向量夹角为零，两篇文章完全相同；当夹角的余弦接近于1时两篇文章越相似，从而可以归成一类；夹角的余弦越小，夹角越大，两篇文章越不相关。</p>
+<p>现在假定我们已知一些文章的特征向量，那么对于任何一个要被分类的文章，就很容易计算出它和各类文章的余弦相似性，并将其归入它该去的那一类中。</p>
+<p>如果事先没有已知的文章的特征向量呢，可以用自底向上不断合并的方法。</p>
+<ol>
+<li>计算所有文章之间凉凉的余弦相似性，把相似性大于一个阈值的合并成一小类</li>
+<li>把每个小类中的所有文章作为一个整体，计算小类的特征向量，在计算小雷之间两两的余弦相似性，然后合并成一个大类</li>
+</ol>
+<p>这样不断做下去，类别越来越少，而每个类越来越大。当某一类太大时，这一类里的文章的相似性就很小了，这时就要停止迭代过程了，然后完成分类。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color5">algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/18/TF-IDF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-useful-website" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -478,6 +655,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color5">algorithm</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag color1">tools</a>
