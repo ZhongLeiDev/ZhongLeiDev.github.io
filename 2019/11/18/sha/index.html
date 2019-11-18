@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: linux | Hexo</title>
+  <title>SHA(安全散列算法)简单实现 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;tags&#x2F;linux&#x2F;index.html">
+  <meta name="description" content="摘要算法：SHA 及 Java 实现样例 SHA = 安全散列算法（Secure Hash Algorithm）。 SHA 与 MD5 类似，都是单向不可逆散列函数，用于计算消息摘要，生成消息数字签名（指纹）。">
+<meta name="keywords" content="algorithm,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SHA(安全散列算法)简单实现">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;sha&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要算法：SHA 及 Java 实现样例 SHA = 安全散列算法（Secure Hash Algorithm）。 SHA 与 MD5 类似，都是单向不可逆散列函数，用于计算消息摘要，生成消息数字签名（指纹）。">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-18T12:54:16.292Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -153,64 +157,211 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-sha" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/18/raspberry-blog1/" class="archive-article-date">
-  	<time datetime="2019-11-18T05:21:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/18/raspberry-blog1/">树莓派镜像制作</a>
+    <h1 class="article-title" itemprop="name">
+      SHA(安全散列算法)简单实现
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/11/18/sha/" class="archive-article-date">
+  	<time datetime="2019-11-18T12:42:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>摘要算法：SHA 及 Java 实现样例</p>
+<p>SHA = 安全散列算法（Secure Hash Algorithm）。</p>
+<p>SHA 与 MD5 类似，都是单向不可逆散列函数，用于计算消息摘要，生成消息数字签名（指纹）。</p>
+<a id="more"></a>
+
+<p>Algorithm    散列值长度（单位比特）</p>
+<table>
+<thead>
+<tr>
+<th>SHA-1</th>
+<th>160</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SHA-224</td>
+<td>224</td>
+</tr>
+<tr>
+<td>SHA-256</td>
+<td>256</td>
+</tr>
+<tr>
+<td>SHA-384</td>
+<td>384</td>
+</tr>
+<tr>
+<td>SHA-512</td>
+<td>512</td>
+</tr>
+</tbody></table>
+<p>Java 实现样例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.security.MessageDigest; </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySHA</span> </span>&#123;     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;        </span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub         </span></span><br><span class="line">        String msg = <span class="string">"0123456789abcdef"</span>;         </span><br><span class="line">        MessageDigest sha = MessageDigest.getInstance(<span class="string">"SHA"</span>);            			sha.update(msg.getBytes());            </span><br><span class="line">        <span class="keyword">byte</span> []shaBin = sha.digest();            </span><br><span class="line">        printBytes(shaBin);</span><br><span class="line">        </span><br><span class="line">        MessageDigest sha1 = MessageDigest.getInstance(<span class="string">"SHA-1"</span>);            		sha1.update(msg.getBytes());            </span><br><span class="line">        printBytes(sha1Bin);</span><br><span class="line">        </span><br><span class="line">        MessageDigest sha224 = MessageDigest.getInstance(<span class="string">"SHA-224"</span>);            		sha224.update(msg.getBytes());            </span><br><span class="line">        <span class="keyword">byte</span> []sha224Bin = sha224.digest();            </span><br><span class="line">        printBytes(sha224Bin);</span><br><span class="line">        </span><br><span class="line">        MessageDigest sha256 = MessageDigest.getInstance(<span class="string">"SHA-256"</span>);            		sha256.update(msg.getBytes());            </span><br><span class="line">        <span class="keyword">byte</span> []sha256Bin = sha256.digest();            </span><br><span class="line">        printBytes(sha256Bin);</span><br><span class="line">        </span><br><span class="line">        MessageDigest sha384 = MessageDigest.getInstance(<span class="string">"SHA-384"</span>);            		sha384.update(msg.getBytes());            </span><br><span class="line">        <span class="keyword">byte</span> []sha384Bin = sha384.digest();            </span><br><span class="line">        printBytes(sha384Bin);</span><br><span class="line">        </span><br><span class="line">        MessageDigest sha512 = MessageDigest.getInstance(<span class="string">"SHA-512"</span>);            		sha512.update(msg.getBytes());            </span><br><span class="line">        <span class="keyword">byte</span> []sha512Bin = sha512.digest();            </span><br><span class="line">        printBytes(sha512Bin);        </span><br><span class="line">    &#125;    </span><br><span class="line">&#125;    </span><br><span class="line"></span><br><span class="line"><span class="comment">/**     </span></span><br><span class="line"><span class="comment">* 十六进制打印字节数组     </span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> b byte[]     </span></span><br><span class="line"><span class="comment">*/</span>    </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printBytes</span><span class="params">(<span class="keyword">byte</span>[] b)</span>    </span>&#123;        </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;b.length;i++)        &#123;            </span><br><span class="line">        System.out.printf(<span class="string">"%02X"</span>, b[i]);        </span><br><span class="line">    &#125;        </span><br><span class="line">    System.out.println();    </span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注：散列值都是按照十六进制大写字母编码表示</p>
+<p>很多人肯定会出来反驳，加密简单的123456可以在某些解密网站直接解密出来。</p>
+<p>在这样的情况下，我们可以尝试在字符串追加其他文字如<strong>yangzhangyin</strong>，实际如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.math.BigInteger; </span><br><span class="line"><span class="keyword">import</span> java.security.MessageDigest; </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SHAEncryption</span> </span>&#123;    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] encryptSHA(<span class="keyword">byte</span>[] data, String shaN) </span><br><span class="line">        <span class="keyword">throws</span> Exception &#123;         </span><br><span class="line">        MessageDigest sha = MessageDigest.getInstance(shaN);        				sha.update(data);        </span><br><span class="line">        <span class="keyword">return</span> sha.digest();     </span><br><span class="line">    &#125;          </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encryptFlychordPwd</span><span class="params">(String str)</span> </span>&#123;            </span><br><span class="line">        <span class="keyword">byte</span>[] outputData = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>];            </span><br><span class="line">        <span class="keyword">try</span> &#123;                </span><br><span class="line">            outputData =  encryptSHA((str+<span class="string">"yangzhangyin"</span>).getBytes(), </span><br><span class="line">                                     <span class="string">"SHA-256"</span>);                </span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> BigInteger(<span class="number">1</span>, outputData).toString(<span class="number">16</span>);            </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;                </span><br><span class="line">            e.printStackTrace();            </span><br><span class="line">        &#125;            </span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>;        </span><br><span class="line">    &#125;                </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; <span class="comment">//加密123456</span></span><br><span class="line">        System.out.println(ss.encryptFlychordPwd(<span class="string">"123456"</span>));          </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就解决了简单密码被解密的问题啦。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" target="_blank" rel="noopener" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color5">raspberry</a>
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color5">algorithm</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">linux</a>
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" target="_blank" rel="noopener" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" target="_blank" rel="noopener" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;" target="_blank" rel="noopener"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/11/18/sha/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/11/18/diffie-hellman/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Diffie-Hellman（秘钥协商算法）介绍</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -233,9 +384,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
