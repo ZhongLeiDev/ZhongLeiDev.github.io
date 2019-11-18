@@ -8,16 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>树莓派镜像制作 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="【1】树莓派原始镜像烧录。 【2】中文字库以及中文拼音输入法下载： 启动后，双击桌面那个计算机显示器图标，出现提示符时打入： 1sudo apt-get install ttf-wqy-zenhei  将安装文泉驿的开源中文字体，在这里向文泉驿表示致敬，貌似它是唯一一个开源的中文字体库。郭嘉有钱建孔子学院，但是从来不会有钱搞一套比较完整的开源中文字库出来的。 中文是可以显示啦，输入呢？Linux下">
+  <meta name="description" content="【1】树莓派原始镜像烧录。 【2】中文字库以及中文拼音输入法下载： 启动后，开启Terminal终端，出现提示符时输入： 1sudo apt-get install ttf-wqy-zenhei">
 <meta name="keywords" content="raspberry,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="树莓派镜像制作">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;raspberry-blog1&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="【1】树莓派原始镜像烧录。 【2】中文字库以及中文拼音输入法下载： 启动后，双击桌面那个计算机显示器图标，出现提示符时打入： 1sudo apt-get install ttf-wqy-zenhei  将安装文泉驿的开源中文字体，在这里向文泉驿表示致敬，貌似它是唯一一个开源的中文字体库。郭嘉有钱建孔子学院，但是从来不会有钱搞一套比较完整的开源中文字库出来的。 中文是可以显示啦，输入呢？Linux下">
+<meta property="og:description" content="【1】树莓派原始镜像烧录。 【2】中文字库以及中文拼音输入法下载： 启动后，开启Terminal终端，出现提示符时输入： 1sudo apt-get install ttf-wqy-zenhei">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-18T05:42:02.769Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;sqzdd.png">
+<meta property="og:updated_time" content="2019-11-18T06:06:58.369Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;sqzdd.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -179,8 +181,10 @@
       
         <p>【1】树莓派原始镜像烧录。</p>
 <p>【2】中文字库以及中文拼音输入法下载：</p>
-<p>启动后，双击桌面那个计算机显示器图标，出现提示符时打入：</p>
+<p>启动后，开启Terminal终端，出现提示符时输入：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ttf-wqy-zenhei</span><br></pre></td></tr></table></figure>
+
+ <a id="more"></a> 
 
 <p>将安装文泉驿的开源中文字体，在这里向文泉驿表示致敬，貌似它是唯一一个开源的中文字体库。郭嘉有钱建孔子学院，但是从来不会有钱搞一套比较完整的开源中文字库出来的。</p>
 <p>中文是可以显示啦，输入呢？Linux下早就有啦，叫SCIM（Smart Common Input Method ），所以只要输入：</p>
@@ -192,6 +196,74 @@
 
 <p>然后选择change_locale，在Default locale for the system environment:中选择zh_CN.UTF-8。然后重启机器，就发现整个环境变成中文的了。</p>
 <p>【3】安装 Pi4j：</p>
+<p><strong>Installation</strong></p>
+<p><strong>Easy/Preferred</strong></p>
+<p>(NOTE: This installation method requires that your RaspberryPi is connected to the Internet.)</p>
+<p>The simplest method to install Pi4J on your RaspberryPi is to execute the following command directly on your RaspberryPi.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s get.pi4j.com | sudo bash</span><br></pre></td></tr></table></figure>
+
+<p>This method will download and launch an installation script that perform the following steps:</p>
+<ol>
+<li>adds the Pi4J APT repository to the local APT repositories</li>
+<li>downloads and installs the Pi4J GPG public key for signature validation</li>
+<li>invokes the ‘apt-get update’ command on the Pi4J APT repository to update the local package database</li>
+<li>invokes the ‘apt-get install pi4j’ command to perform the download and installation</li>
+</ol>
+<p><strong>Offline/Manual</strong></p>
+<p>If you prefer/need to install Pi4J on a RaspberryPi device without an Internet connection, the following instructions provide the steps necessary to install Pi4J without requiring an Internet connection.</p>
+<p>First, download a copy of the latest Pi4J Debian/Raspian installer package (.deb) file to your local computer. You can download the Pi4J Debian/Raspian installer package (.deb) using your web browser at the following URL: </p>
+<p><a href="http://get.pi4j.com/download/pi4j-1.2-SNAPSHOT.deb" target="_blank" rel="noopener">http://get.pi4j.com/download/pi4j-1.2-SNAPSHOT.deb</a></p>
+<p>Next, you will need to transfer the download installer package over to your RaspberryPi. You can use any method you prefer to transfer the file (USB, SCP, FTP, etc.)</p>
+<p>(NOTE: If you have a previous version of Pi4J installed, you will need to uninstall it first.)</p>
+<p>Once the installer package is available on your RaspberryPi, use the following command on the Pi to perform the installation: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i pi4j-1.2-SNAPSHOT.deb</span><br></pre></td></tr></table></figure>
+
+<p><strong>Upgrade</strong></p>
+<p><strong>Easy/Preferred</strong></p>
+<p>If you originally installed Pi4J using the <em>‘easy’</em> method, then Pi4J upgrades will be available anytime you perform a system update using ‘sudo apt-get update’ and ‘sudo update-get upgrade’.</p>
+<p>If you wish to force an upgrade of the Pi4J package only, you can do so by executing the following command: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install pi4j or pi4j --update</span><br></pre></td></tr></table></figure>
+
+<p><strong>Offline/Manual</strong></p>
+<p>If you originally installed Pi4J using the <em>‘offline’</em> method, then you will need to manually uninstall the Pi4J package and download, transfer, and install the new version package using the ‘offline’ uninstall and installation methods described here on this page.</p>
+<p><strong>Uninstall</strong></p>
+<p><strong>Easy/Preferred</strong></p>
+<p>If you originally installed Pi4J using the <em>‘easy’</em> method, then you can uninstall Pi4J simply by executing the following command on your RaspberryPi. </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove pi4j or pi4j --uninstall</span><br></pre></td></tr></table></figure>
+
+<p><strong>Complete/Full Removal</strong></p>
+<p>If you originally installed Pi4J using the <em>‘easy’</em> method and you want to remove all traces of Pi4J, including the Pi4J repository in the APT repositories list and the Pi4J GPG signature, then simply execute the following command on your RaspberryPi. </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s get.pi4j.com/uninstall | sudo bash</span><br></pre></td></tr></table></figure>
+
+<p><strong>Offline/Manual</strong></p>
+<p>If you originally installed Pi4J using the <em>‘offline’</em> method, then you will need to manually uninstall the Pi4J package by executing the following command on your Raspberry Pi: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -r pi4j</span><br></pre></td></tr></table></figure>
+
+<p><strong>Installed Location / Example Files</strong></p>
+<p>This will install the Pi4J libraries and example source files to: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/opt/pi4j/lib </span><br><span class="line"></span><br><span class="line">/opt/pi4j/examples</span><br></pre></td></tr></table></figure>
+
+<p>When attempting to compile a Java program using the Pi4J libraries, make sure to include the Pi4J lib folder in the classpath: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac -classpath .:classes:/opt/pi4j/lib/'*' ...</span><br></pre></td></tr></table></figure>
+
+<p>When attempting to start a Java program using the Pi4J libraries, make sure to include the Pi4J lib folder in the classpath: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo java -classpath .:classes:/opt/pi4j/lib/'*' ...</span><br></pre></td></tr></table></figure>
+
+<p>If you would like to explore the examples, you can compile all the examples with the following commands: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/pi4j/examples/build</span><br></pre></td></tr></table></figure>
+
+<p><strong>Pi4j官网:</strong><a href="https://pi4j.com" target="_blank" rel="noopener">https://pi4j.com</a></p>
+<p>【4】安装 JavaFX 插件包：</p>
+<p>As you can read <a href="https://stackoverflow.com/questions/28284239/javafx-ensemble-on-raspberry-pi/28284736#28284736" target="_blank" rel="noopener">here</a>, the most recent JDK versions for ARM don’t include JavaFX.</p>
+<p>If you want to use JavaFX in your Raspberry Pi, the solution is adding the missing JavaFX SDK.</p>
+<p>If you install the recent Oracle’s JDK for ARM from <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">here</a> (select jdk-8u111-linux-arm32-vfp-hflt.tar.gz), then you will need to download the JavaFX SDK from Gluon’s <a href="http://gluonhq.com/labs/javafxports/get/" target="_blank" rel="noopener">site</a> (select JavaFX Embedded SDK for armv6 hard float).</p>
+<p>Once you have the file, unzip it, and copy the folders to your JDK.</p>
+<p>Assuming you have downloaded armv6hf-sdk-8.60.8.zip to your Pi/Downloads folder, and you have unzip it to a folder armv6hf-sdk, like in the following picture:</p>
+<p><img src="https://www.smartonline.net.cn/asserts/sqzdd.png" alt="Pi ARM JavaFX"></p>
+<p>using the following commands will allow you moving from command line the files to the JDK required folders. You can use a graphic tool for this as well.</p>
+<p>cd Downloads sudo chown -R root:root armv6hf-sdk cd armv6hf-sdk sudo mv lib/javafx-mx.jar /opt/jdk1.8.0_111/lib/ cd rt/lib/ sudo mv j* /opt/jdk1.8.0_111/jre/lib/ sudo mv arm/* /opt/jdk1.8.0_111/jre/lib/arm/ sudo mv ext/* /opt/jdk1.8.0_111/jre/lib/ext/ </p>
+<p>After that you should be able to run Java/JavaFX programs.</p>
+<p><strong>Links:</strong><a href="https://stackoverflow.com/questions/40481455/running-javafx-gui-on-the-raspberry-pi/40483500#40483500" target="_blank" rel="noopener">https://stackoverflow.com/questions/40481455/running-javafx-gui-on-the-raspberry-pi/40483500#40483500</a></p>
 
       
 
