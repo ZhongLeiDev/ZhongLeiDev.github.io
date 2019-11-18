@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>如何使用Disruptor（二） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="从Ringbuffer读取数据 从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使用Disruptor向Ring Buffer写数据和从Ring Buffer中读取数据。 作者：佚名来源：ifeve.com|2013-06-19 11:33 从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使">
+  <meta name="description" content="从Ringbuffer读取数据 从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使用Disruptor向Ring Buffer写数据和从Ring Buffer中读取数据。 从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使用Disruptor向Ring Buffer写数据和从Ring Buf">
 <meta name="keywords" content="concurrent">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何使用Disruptor（二）">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;disruptor2&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="从Ringbuffer读取数据 从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使用Disruptor向Ring Buffer写数据和从Ring Buffer中读取数据。 作者：佚名来源：ifeve.com|2013-06-19 11:33 从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使">
+<meta property="og:description" content="从Ringbuffer读取数据 从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使用Disruptor向Ring Buffer写数据和从Ring Buffer中读取数据。 从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使用Disruptor向Ring Buffer写数据和从Ring Buf">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;s_880211960.jpeg">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;nekawwjs561.jpeg">
-<meta property="og:updated_time" content="2019-11-18T12:00:53.873Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;neKawwjs561.jpeg">
+<meta property="og:updated_time" content="2019-11-18T12:04:27.634Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;s_880211960.jpeg">
   
@@ -182,8 +182,9 @@
       
         <p><strong>从Ringbuffer读取数据</strong></p>
 <p>从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使用Disruptor向Ring Buffer写数据和从Ring Buffer中读取数据。</p>
-<p>作者：佚名来源：ifeve.com|2013-06-19 11:33</p>
 <p>从上一篇文章中我们都了解了什么是<strong>Ring Buffer</strong>以及它是如何的特别。但遗憾的是，我还没有讲述如何使用<strong>Disruptor</strong>向<strong>Ring Buffer</strong>写数据和从<strong>Ring Buffer</strong>中读取数据。</p>
+<a id="more"></a>
+
 <p><strong>ConsumerBarrier与消费者</strong></p>
 <p>这里我要稍微反过来介绍，因为总的来说读取数据这一过程比写数据要容易理解。假设通过一些“魔法”已经把数据写入到<strong>Ring Buffer</strong>了，怎样从<strong>Ring Buffer</strong>读出这些数据呢？</p>
 <p><img src="https://www.smartonline.net.cn/asserts/s_880211960.jpeg" alt="img"></p>
@@ -195,7 +196,7 @@
 <p><strong>ConsumerBarrier</strong>返回<strong>RingBuffer</strong>的最大可访问序号——在上面的例子中是<strong>12</strong>。<strong>ConsumerBarrier</strong>有一个<strong>WaitStrategy</strong>方法来决定它如何等待这个序号，我现在不会去描述它的细节，代码的注释里已经概括了每一种<strong>WaitStrategy</strong>的优点和缺点 。</p>
 <p><strong>接下来怎么做？</strong></p>
 <p>接下来，消费者会一直原地停留，等待更多数据被写入<strong>Ring Buffer</strong>。并且，一旦数据写入后消费者会收到通知——节点<strong>9</strong>，<strong>10</strong>，<strong>11</strong>和<strong>12</strong> 已写入。现在序号<strong>12</strong>到了，消费者可以让<strong>ConsumerBarrier</strong>去拿这些序号节点里的数据了。</p>
-<p><img src="https://www.smartonline.net.cn/asserts/nekawwjs561.jpeg" alt="img"></p>
+<p><img src="https://www.smartonline.net.cn/asserts/neKawwjs561.jpeg" alt="img"></p>
 <p>拿到了数据后，消费者(<strong>Consumer</strong>)会更新自己的标识(<strong>cursor</strong>)。</p>
 <p>你应该已经感觉得到，这样做是怎样有助于平缓延迟的峰值了——以前需要逐个节点地询问“我可以拿下一个数据吗？现在可以了么？现在呢？”，消费者(<strong>Consumer</strong>)现在只需要简单的说“当你拿到的数字比我这个要大的时候请告诉我”，函数返回值会告诉它有多少个新的节点可以读取数据了。因为这些新的节点的确已经写入了数据（<strong>Ring Buffer</strong>本身的序号已经更新），而且消费者对这些节点的唯一操作是读而不是写，因此访问不用加锁。这太好了，不仅代码实现起来可以更加安全和简单，而且不用加锁使得速度更快。</p>
 <p>另一个好处是——你可以用多个消费者(<strong>Consumer)</strong>去读同一个<strong>RingBuffer</strong> ，不需要加锁，也不需要用另外的队列来协调不同的线程(消费者)。这样你可以在<strong>Disruptor</strong>的协调下实现真正的并发数据处理。</p>
@@ -306,6 +307,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/11/18/disruptor3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          如何使用 Disruptor（三）
+        
+      </div>
+    </a>
   
   
     <a href="/2019/11/18/disruptor1/" id="article-nav-older" class="article-nav-link-wrap">

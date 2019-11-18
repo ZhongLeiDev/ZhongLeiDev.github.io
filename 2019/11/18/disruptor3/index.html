@@ -6,14 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>如何使用 Disruptor（三） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;index.html">
+  <meta name="description" content="本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。 作者：Trisha 廖涵译 这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。">
+<meta name="keywords" content="concurrent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用 Disruptor（三）">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;disruptor3&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。 作者：Trisha 廖涵译 这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;s_782643296.jpeg">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;aegbsvty487.jpeg">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;zqr0ggvq716.jpeg">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;5dct1vbs169.jpeg">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;ovuahxbw728.jpeg">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;lfmwgd6g622.jpeg">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;m4n2n-h4811.jpeg">
+<meta property="og:updated_time" content="2019-11-18T12:16:04.394Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;s_782643296.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -153,36 +165,108 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-disruptor3" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      如何使用 Disruptor（三）
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/18/disruptor3/" class="archive-article-date">
+
+        
+        <a href="/2019/11/18/disruptor3/" class="archive-article-date">
   	<time datetime="2019-11-18T12:03:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/18/disruptor3/">如何使用 Disruptor（三）</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。</p>
+<p>作者：Trisha 廖涵译</p>
+<p>这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。</p>
+<a id="more"></a>
 
-        <div class="article-info info-on-right">
-          
+<p>本文的 <strong>重点</strong> 是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。</p>
+<p><strong>ProducerBarriers</strong></p>
+<p>Disruptor 代码 给 <strong>消费者</strong> 提供了一些接口和辅助类，但是没有给写入 Ring Buffer 的 <strong>生产者</strong> 提供接口。这是因为除了你需要知道生产者之外，没有别人需要访问它。尽管如此，Ring Buffer 还是与消费端一样提供了一个 ProducerBarrier 对象，让生产者通过它来写入 Ring Buffer。</p>
+<p>写入 Ring Buffer 的过程涉及到两阶段提交 (two-phase commit)。首先，你的生产者需要申请 buffer 里的下一个节点。然后，当生产者向节点写完数据，它将会调用 ProducerBarrier 的 commit 方法。</p>
+<p>那么让我们首先来看看第一步。 “给我 Ring Buffer 里的下一个节点”，这句话听起来很简单。的确，从生产者角度来看它很简单：简单地调用 ProducerBarrier 的 nextEntry() 方法，这样会返回给你一个 Entry 对象，这个对象就是 Ring Buffer 的下一个节点。</p>
+<p><strong>ProducerBarrier 如何防止 Ring Buffer 重叠</strong></p>
+<p>在后台，由 ProducerBarrier 负责所有的交互细节来从 Ring Buffer 中找到下一个节点，然后才允许生产者向它写入数据。</p>
+<p><img src="https://www.smartonline.net.cn/asserts/s_782643296.jpeg" alt="img"></p>
+<p>（我不确定 闪闪发亮的新手写板 能否有助于提高我画图片的清晰度，但是它用起来很有意思）。</p>
+<p>在这幅图中，我们假设只有一个生产者写入 Ring Buffer。过一会儿我们再处理多个生产者的复杂问题。</p>
+<p><strong>ConsumerTrackingProducerBarrier</strong> 对象拥有所有正在访问 Ring Buffer 的 <strong>消费者</strong> 列 表。这看起来有点儿奇怪－我从没有期望 ProducerBarrier 了解任何有关消费端那边的事情。但是等等，这是有原因的。因为我们不想与队列“混为一谈”（队列需要追踪队列的头和尾，它们有时候会指向相同的位 置），Disruptor 由消费者负责通知它们处理到了哪个序列号，而不是 Ring Buffer。所以，如果我们想确定我们没有让 Ring Buffer 重叠，需要检查所有的消费者们都读到了哪里。</p>
+<p>在上图中，有一个 <strong>消费者</strong> 顺利的读到了最大序号 12（用红色/粉色高亮）。第二个<strong>消费者</strong> 有点儿落后——可能它在做 I/O 操作之类的——它停在序号 3。因此消费者 2 在赶上消费者 1 之前要跑完整个 Ring Buffer 一圈的距离。</p>
+<p>现在生产者想要写入 Ring Buffer 中序号 3 占据的节点，因为它是 Ring Buffer 当前游标的下一个节点。但是 ProducerBarrier 明白现在不能写入，因为有一个消费者正在占用它。所以，ProducerBarrier 停下来自旋 (spins)，等待，直到那个消费者离开。</p>
+<p><strong>申请下一个节点</strong></p>
+<p>现在可以想像消费者 2 已经处理完了一批节点，并且向前移动了它的序号。可能它挪到了序号 9（因为消费端的批处理方式，现实中我会预计它到达 12，但那样的话这个例子就不够有趣了）。</p>
+<p><img src="https://www.smartonline.net.cn/asserts/aegbsvty487.jpeg" alt="img"></p>
+<p>上图显示了当消费者 2 挪动到序号 9 时发生的情况。在这张图中我已经忽略了ConsumerBarrier，因为它没有参与这个场景。</p>
+<p>ProducerBarier 会看到下一个节点——序号 3 那个已经可以用了。它会抢占这个节点上的 Entry（我还没有特别介绍 Entry 对象，基本上它是一个放写入到某个序号的 Ring Buffer 数据的桶），把下一个序号（13）更新成 Entry 的序号，然后把 Entry 返回给生产者。生产者可以接着往 Entry 里写入数据。</p>
+<p><strong>提交新的数据</strong></p>
+<p>两阶段提交的第二步是——对，提交。</p>
+<p><img src="https://www.smartonline.net.cn/asserts/zqr0ggvq716.jpeg" alt="img"></p>
+<p>绿色表示最近写入的 Entry，序号是 13 ——厄，抱歉，我也是红绿色盲。但是其他颜色甚至更糟糕。</p>
+<p>当生产者结束向 Entry 写入数据后，它会要求 ProducerBarrier 提交。</p>
+<p>ProducerBarrier 先等待 Ring Buffer 的游标追上当前的位置（对于单生产者这毫无意义－比如，我们已经知道游标到了 12 ，而且没有其他人正在写入 Ring Buffer）。然后 ProducerBarrier 更新 Ring Buffer 的游标到刚才写入的 Entry 序号－在我们这儿是 13。接下来，ProducerBarrier 会让消费者知道 buffer 中有新东西了。它戳一下 ConsumerBarrier 上的 WaitStrategy 对象说－“喂，醒醒！有事情发生了！”（注意－不同的 WaitStrategy 实现以不同的方式来实现提醒，取决于它是否采用阻塞模式。）</p>
+<p>现在消费者 1 可以读 Entry 13 的数据，消费者 2 可以读 Entry 13 以及前面的所有数据，然后它们都过得很 happy。</p>
+<p><strong>ProducerBarrier 上的批处理</strong></p>
+<p>有趣的是 Disruptor 可以同时在生产者和 消费者 两端实现批处理。还记得伴随着程序运行，消费者 2 最后达到了序号 9 吗？ProducerBarrier 可以在这里做一件很狡猾的事－它知道 Ring Buffer 的大小，也知道最慢的消费者位置。因此它能够发现当前有哪些节点是可用的。</p>
+<p><img src="https://www.smartonline.net.cn/asserts/5dct1vbs169.jpeg" alt="img"></p>
+<p>如果 ProducerBarrier 知道 Ring Buffer 的游标指向 12，而最慢的消费者在 9 的位置，它就可以让生产者写入节点 3，4，5，6，7 和 8，中间不需要再次检查消费者的位置。</p>
+<p><strong>多个生产者的场景</strong></p>
+<p>到这里你也许会以为我讲完了，但其实还有一些细节。</p>
+<p>在上面的图中我稍微撒了个谎。我暗示了 ProducerBarrier 拿到的序号直接来自 Ring Buffer 的游标。然而，如果你看过代码的话，你会发现它是通过 ClaimStrategy 获取的。我省略这个对象是为了简化示意图，在单个生产者的情况下它不是很重要。</p>
+<p>在多个生产者的场景下，你还需要其他东西来追踪序号。这个序号是指当前可写入的序号。注意这和“向 Ring Buffer 的游标加 1”不一样－如果你有一个以上的生产者同时在向 Ring Buffer 写入，就有可能出现某些 Entry 正在被生产者写入但还没有提交的情况。</p>
+<p><img src="https://www.smartonline.net.cn/asserts/ovuahxbw728.jpeg" alt="img"></p>
+<p>让我们复习一下如何申请写入节点。每个生产者都向 ClaimStrategy 申请下一个可用的节点。生产者 1 拿到序号 13，这和上面单个生产者的情况一样。生产者 2 拿到序号 14，尽管 Ring Buffer的当前游标仅仅指向 12。这是因为 ClaimSequence 不但负责分发序号，而且负责跟踪哪些序号已经被分配。</p>
+<p>现在每个生产者都拥有自己的写入节点和一个崭新的序号。</p>
+<p>我把生产者 1 和它的写入节点涂上绿色，把生产者 2 和它的写入节点涂上可疑的粉色－看起来像紫色。</p>
+<p><img src="https://www.smartonline.net.cn/asserts/lfmwgd6g622.jpeg" alt="img"></p>
+<p>现在假设生产者 1 还生活在童话里，因为某些原因没有来得及提交数据。生产者 2 已经准备好提交了，并且向 ProducerBarrier 发出了请求。</p>
+<p>就像我们先前在 commit 示意图中看到的一样，ProducerBarrier 只有在 Ring Buffer 游标到达准备提交的节点的前一个节点时它才会提交。在当前情况下，游标必须先到达序号 13 我们才能提交节点 14 的数据。但是我们不能这样做，因为生产者 1 正盯着一些闪闪发光的东西，还没来得及提交。因此 ClaimStrategy 就停在那儿自旋 (spins)， 直到 Ring Buffer 游标到达它应该在的位置。</p>
+<p><img src="https://www.smartonline.net.cn/asserts/m4n2n-h4811.jpeg" alt="img"></p>
+<p>现在生产者 1 从迷糊中清醒过来并且申请提交节点 13 的数据（生产者 1 发出的绿色箭头代表这个请求）。ProducerBarrier 让 ClaimStrategy 先等待 Ring Buffer 的游标到达序号 12，当然现在已经到了。因此 Ring Buffer 移动游标到 13，让 ProducerBarrier 戳一下 WaitStrategy 告诉所有人都知道 Ring Buffer 有更新了。现在 ProducerBarrier 可以完成生产者 2 的请求，让 Ring Buffer 移动游标到 14，并且通知所有人都知道。</p>
+<p>你会看到，尽管生产者在不同的时间完成数据写入，但是 Ring Buffer 的内容顺序总是会遵循 nextEntry() 的初始调用顺序。也就是说，如果一个生产者在写入 Ring Buffer 的时候暂停了，只有当它解除暂停后，其他等待中的提交才会立即执行。</p>
+<p>呼——。我终于设法讲完了这一切的内容并且一次也没有提到内存屏障（Memory Barrier）。</p>
+<p><strong>更新</strong>：最近的 RingBuffer 版本去掉了 Producer Barrier。如果在你看的代码里找不到 ProducerBarrier，那就假设当我讲“Producer Barrier”时，我的意思是“Ring Buffer”。</p>
+<p><strong>更新2</strong>：注意 Disruptor 2.0 版使用了与本文不一样的命名。如果你对类名感到困惑，请阅读我写的Disruptor 2.0更新摘要。</p>
+<p>原文链接：<a href="http://ifeve.com/dissecting-the-disruptor-writing-to-the-ring-buffer/" target="_blank" rel="noopener">http://ifeve.com/dissecting-the-disruptor-writing-to-the-ring-buffer/</a></p>
+<p>译文链接：<a href="http://ifeve.com/disruptor-writing-ringbuffer/" target="_blank" rel="noopener">http://ifeve.com/disruptor-writing-ringbuffer/</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" target="_blank" rel="noopener" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -194,240 +278,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" target="_blank" rel="noopener" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" target="_blank" rel="noopener" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" target="_blank" rel="noopener" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;" target="_blank" rel="noopener"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/11/18/disruptor3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/18/disruptor2/" class="archive-article-date">
-  	<time datetime="2019-11-18T11:57:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/18/disruptor2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">如何使用Disruptor（二）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/18/disruptor2/">如何使用Disruptor（二）</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">concurrent</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/18/disruptor1/" class="archive-article-date">
-  	<time datetime="2019-11-18T11:35:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/18/disruptor1/">如何使用Disruptor（一）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">concurrent</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/18/TF-IDF/" class="archive-article-date">
-  	<time datetime="2019-11-18T11:14:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/18/TF-IDF/">TF-IDF算法介绍</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color5">algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/18/useful-website/" class="archive-article-date">
-  	<time datetime="2019-11-18T08:28:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/18/useful-website/">工具网站收藏</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/18/raspberry-blog1/" class="archive-article-date">
-  	<time datetime="2019-11-18T05:21:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/18/raspberry-blog1/">树莓派镜像制作</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color5">raspberry</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-11-18T02:02:50.485Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -450,8 +400,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -155,6 +155,84 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-disruptor3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/18/disruptor3/">如何使用 Disruptor（三）</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/18/disruptor3/" class="archive-article-date">
+  	<time datetime="2019-11-18T12:03:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。</p>
+<p>作者：Trisha 廖涵译</p>
+<p>这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。</p>
+        
+          <a class="article-more-a" href="/2019/11/18/disruptor3/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" target="_blank" rel="noopener" class="js-tag article-tag-list-link color1">concurrent</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/18/disruptor3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" target="_blank" rel="noopener" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-disruptor2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -177,28 +255,10 @@
       
         <p><strong>从Ringbuffer读取数据</strong></p>
 <p>从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使用Disruptor向Ring Buffer写数据和从Ring Buffer中读取数据。</p>
-<p>作者：佚名来源：ifeve.com|2013-06-19 11:33</p>
 <p>从上一篇文章中我们都了解了什么是<strong>Ring Buffer</strong>以及它是如何的特别。但遗憾的是，我还没有讲述如何使用<strong>Disruptor</strong>向<strong>Ring Buffer</strong>写数据和从<strong>Ring Buffer</strong>中读取数据。</p>
-<p><strong>ConsumerBarrier与消费者</strong></p>
-<p>这里我要稍微反过来介绍，因为总的来说读取数据这一过程比写数据要容易理解。假设通过一些“魔法”已经把数据写入到<strong>Ring Buffer</strong>了，怎样从<strong>Ring Buffer</strong>读出这些数据呢？</p>
-<p><img src="https://www.smartonline.net.cn/asserts/s_880211960.jpeg" alt="img"></p>
-<p>(好，我开始后悔使用<strong>Paint/Gimp</strong> 了。尽管这是个购买绘图板的好借口，如果我继续写下去的话… <strong>UML</strong>界的权威们大概也在诅咒我的名字了。)</p>
-<p>消费者(<strong>Consumer</strong>)是一个想从<strong>Ring Buffer</strong>里读取数据的线程，它可以访问<strong>ConsumerBarrier</strong>对象——这个对象由<strong>RingBuffer</strong>创建并且代表消费者与<strong>RingBuffer</strong>进行交互。就像<strong>Ring Buffer</strong>显然需要一个序号才能找到下一个可用节点一样，消费者也需要知道它将要处理的序号——每个消费者都需要找到下一个它要访问的序号。在上面的例子中，消费者处理完了<strong>Ring Buffer</strong>里序号<strong>8</strong>之前（包括<strong>8</strong>）的所有数据，那么它期待访问的下一个序号是<strong>9</strong>。</p>
-<p>消费者可以调用<strong>ConsumerBarrier</strong>对象的<strong>waitFor()</strong>方法，传递它所需要的下一个序号.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">long</span> availableSeq = consumerBarrier.waitFor(nextSequence);</span><br></pre></td></tr></table></figure>
-
-<p><strong>ConsumerBarrier</strong>返回<strong>RingBuffer</strong>的最大可访问序号——在上面的例子中是<strong>12</strong>。<strong>ConsumerBarrier</strong>有一个<strong>WaitStrategy</strong>方法来决定它如何等待这个序号，我现在不会去描述它的细节，代码的注释里已经概括了每一种<strong>WaitStrategy</strong>的优点和缺点 。</p>
-<p><strong>接下来怎么做？</strong></p>
-<p>接下来，消费者会一直原地停留，等待更多数据被写入<strong>Ring Buffer</strong>。并且，一旦数据写入后消费者会收到通知——节点<strong>9</strong>，<strong>10</strong>，<strong>11</strong>和<strong>12</strong> 已写入。现在序号<strong>12</strong>到了，消费者可以让<strong>ConsumerBarrier</strong>去拿这些序号节点里的数据了。</p>
-<p><img src="https://www.smartonline.net.cn/asserts/nekawwjs561.jpeg" alt="img"></p>
-<p>拿到了数据后，消费者(<strong>Consumer</strong>)会更新自己的标识(<strong>cursor</strong>)。</p>
-<p>你应该已经感觉得到，这样做是怎样有助于平缓延迟的峰值了——以前需要逐个节点地询问“我可以拿下一个数据吗？现在可以了么？现在呢？”，消费者(<strong>Consumer</strong>)现在只需要简单的说“当你拿到的数字比我这个要大的时候请告诉我”，函数返回值会告诉它有多少个新的节点可以读取数据了。因为这些新的节点的确已经写入了数据（<strong>Ring Buffer</strong>本身的序号已经更新），而且消费者对这些节点的唯一操作是读而不是写，因此访问不用加锁。这太好了，不仅代码实现起来可以更加安全和简单，而且不用加锁使得速度更快。</p>
-<p>另一个好处是——你可以用多个消费者(<strong>Consumer)</strong>去读同一个<strong>RingBuffer</strong> ，不需要加锁，也不需要用另外的队列来协调不同的线程(消费者)。这样你可以在<strong>Disruptor</strong>的协调下实现真正的并发数据处理。</p>
-<p><strong>BatchConsumer</strong>代码是一个消费者的例子。如果你实现了<strong>BatchHandler,</strong> 你可以用<strong>BatchConsumer</strong>来完成上面我提到的复杂工作。它很容易对付那些需要成批处理的节点（例如上文中要处理的<strong>9-12</strong>节点）而不用单独地去读取每一个节点。</p>
-<p>更新：注意<strong>Disruptor 2.0</strong>版本使用了与本文不一样的命名。如果你对类名感到困惑，请阅读我的<strong>变更总结</strong>。</p>
-<p>原文链接：<a href="http://ifeve.com/dissecting-the-disruptor-how-do-i-read-from-the-ring-buffer/" target="_blank" rel="noopener">http://ifeve.com/dissecting-the-disruptor-how-do-i-read-from-the-ring-buffer/</a></p>
-<p>译文链接：<a href="http://ifeve.com/dissecting_the_disruptor_how_doi_read_from_the_ring_buffer/" target="_blank" rel="noopener">http://ifeve.com/dissecting_the_disruptor_how_doi_read_from_the_ring_buffer/</a></p>
-
+        
+          <a class="article-more-a" href="/2019/11/18/disruptor2/#more">more >></a>
+        
       
 
       
