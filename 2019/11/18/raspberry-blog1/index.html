@@ -17,7 +17,7 @@
 <meta property="og:description" content="【1】树莓派原始镜像烧录。 【2】中文字库以及中文拼音输入法下载： 启动后，开启Terminal终端，出现提示符时输入： 1sudo apt-get install ttf-wqy-zenhei">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;sQzdd.png">
-<meta property="og:updated_time" content="2019-11-18T07:18:03.413Z">
+<meta property="og:updated_time" content="2019-11-18T07:19:06.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;sQzdd.png">
   
@@ -874,7 +874,7 @@
 <li>volume 150%, XXX=1.5 and YYY=352 … (for boost test, normal values are &lt;=100%)</li>
 </ul>
 <p>working bash script for dbus volume command:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export DBUS_SESSION_BUS_ADDRESS=$(cat /tmp/omxplayerdbus.$&#123;USER:-root&#125;) \</span><br><span class="line">dbus-send --print-reply --session --reply-timeout=500 \           </span><br><span class="line">		  --dest=org.mpris.MediaPlayer2.omxplayer \           			</span><br><span class="line"> 		  /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Set\  </span><br><span class="line"> 		  string:"org.mpris.MediaPlayer2.Player" \           </span><br><span class="line"> 		  string:"Volume" double:0.5   # &lt;-- XXX=0.5 (50% sound volume)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export DBUS_SESSION_BUS_ADDRESS=$(cat /tmp/omxplayerdbus.$&#123;USER:-root&#125;) \</span><br><span class="line">dbus-send --print-reply --session --reply-timeout=500 \           </span><br><span class="line">		  --dest=org.mpris.MediaPlayer2.omxplayer \           			</span><br><span class="line"> 		  /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Set\  </span><br><span class="line">		  string:"org.mpris.MediaPlayer2.Player" \           </span><br><span class="line"> 		  string:"Volume" double:0.5   # &lt;-- XXX=0.5 (50% sound volume)</span><br></pre></td></tr></table></figure>
 
 <p>equals to volume parameter at startup:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">omxplayer --vol -602 mediaFileName.mp4</span><br></pre></td></tr></table></figure>
