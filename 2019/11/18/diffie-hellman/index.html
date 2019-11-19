@@ -16,14 +16,14 @@
 <meta property="og:site_name" content="ZhongLeiDev-Blog">
 <meta property="og:description" content="一、概述 Diffie-Hellman密钥协商算法主要解决秘钥配送问题，本身并非用来加密用的；该算法其背后有对应数学理论做支撑，简单来讲就是构造一个复杂的计算难题，使得对该问题的求解在现实的时间内无法快速有效的求解（computationally infeasible ）。">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;5-1377258439.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;9-1497141203.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;8-2035633054.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;2-1457088379.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;82-320719224.png">
-<meta property="og:updated_time" content="2019-11-18T12:40:12.760Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;5-1377258439.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;9-1497141203.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;8-2035633054.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;2-1457088379.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;82-320719224.png">
+<meta property="og:updated_time" content="2019-11-19T00:48:49.698Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;5-1377258439.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;5-1377258439.png">
   
     <link rel="alternative" href="/atom.xml" title="ZhongLeiDev-Blog" type="application/atom+xml">
   
@@ -211,9 +211,9 @@
 <p>按照惯例，以Alice和Bob这两个密码学中的网红为角色，述阐DH算法的流程。</p>
 <p>假设Alice需要与Bob协商一个秘钥（秘钥本质上就是一个比特序列，从计算的角度看就是一个大数）。</p>
 <p>1）首先Alice与Bob共享一个素数p以及该素数p的本原根g（geneator），当然这里有2⩽g⩽p−1。这两个数是可以不经过加密地由一方发送到另一方，至于谁发送给并不重要，其结果只要保证双方都得知p和g即可。</p>
-<p><img src="https://www.smartonline.net.cn/asserts/5-1377258439.png" alt="img"></p>
+<p><img src="../../../../asserts/5-1377258439.png" alt="img"></p>
 <p>2）然后Alice产生一个私有的随机数A，满足1⩽A⩽p−1，然后计算gAmodp=Ya，将结果Ya通过公网发送给Bob；与此同时，Bob也产生一个私有的随机数B，满足1⩽B⩽p−1，计算gBmodp=Yb，将结果Yb通过公网发送给Alice。</p>
-<p><img src="https://www.smartonline.net.cn/asserts/9-1497141203.png" alt="img"></p>
+<p><img src="../../../../asserts/9-1497141203.png" alt="img"></p>
 <p>3）此时Alice知道的信息有p,g,A,Ya，其中数字A是Alice私有的，只有她自己知道，别人不可能知道，其他三个信息都是别人有可能知道的；Bob知道的信息有p,g,B,Yb，其中数字B是Bob私有的，只有他自己知道，别人不可能知道，其他都是别人有可能知道的。</p>
 <p>到目前为止，Alice和Bob之间的秘钥协商结束。</p>
 <p>Alice通过计算Ka=(Yb)Amodp得到秘钥Ka，同理，Bob通过计算Kb=(Ya)Bmodp得到秘钥Kb，此时可以证明，必然满足Ka=Kb。因此双方经过协商后得到了相同的秘钥，达成秘钥协商的目的。</p>
@@ -225,7 +225,7 @@
 <p>可见，Alice和Bob生成秘钥时其实是进行相同的运算过程，因此必然有Ka=Kb。”相同的运算过程”是双方能够进行秘钥协商的本质原因，类似的利用椭圆曲线进行秘钥协商也是与之相同的原理。</p>
 <p>更严密地考虑，A和B不应该选择p−1，也就是说只能在集合{1,2,3,…,p−2}中选择。这是因为如果选择p−1，那么由费马小定理可知，情况就退化成了gp−1≡1(modp)的情况，对秘钥协商的机密性构成威胁。</p>
 <p>所以总结起来，整个流程串起来大概就是这样：</p>
-<p><img src="https://www.smartonline.net.cn/asserts/8-2035633054.png" alt="img"></p>
+<p><img src="../../../../asserts/8-2035633054.png" alt="img"></p>
 <p>那么窃听者Eve能否破解秘钥呢？首先要知道Eve能够得知哪些信息，显然Eve能够窃听到的信息只能有p,g,Ya,Yb，现在的问题是Eve能够通过以上信息计算出Ka或者Kb吗？要计算Ka或者Kb需要知道A或者B。</p>
 <p>以计算A为例，Eve能根据条件gAmodp=Ya计算出A吗？实际上当p是大质数的时候，这是相当困难的，这就是离散对数问题。实际上在论文发表的当时，计算该问题的最有效的算法的时间复杂度大约是O(p–√)。也正是求解该问题在计算上的困难程度保证了DH算法的安全性。如果能够找到对数时间复杂度的算法，那么该算法即容易被攻破。</p>
 <p><strong>四、一个实例</strong></p>
@@ -238,9 +238,9 @@
 <p>假设秘钥协商过程中，在Alice和Bob中间有一个称为Mallory的主动攻击者，他能够截获Alice和Bob的消息并伪造假消息，考虑如下情况。</p>
 <p>1）Alice和Bob已经共享一个素数p及其该素数p的本原根g，当然Mallory监听到报文也得知了这两个消息。</p>
 <p>2）此时Alice计算Ya=gAmodp，然而在将Ya发送给Bob的过程中被Mallory拦截，Mallory自己选定一个随机数S，计算Ysb=gSmodp，然后将Ysb发送给了Bob。</p>
-<p><img src="https://www.smartonline.net.cn/asserts/2-1457088379.png" alt="img"></p>
+<p><img src="../../../../asserts/2-1457088379.png" alt="img"></p>
 <p>3）同时Bob计算Yb=gBmodp，然而在将Yb发送给Alice的过程中被Mallory拦截，Mallory自己选定一个随机数T，计算Yta=gTmodp，然后将Yta发送给了Alice。</p>
-<p><img src="https://www.smartonline.net.cn/asserts/82-320719224.png" alt="img"></p>
+<p><img src="../../../../asserts/82-320719224.png" alt="img"></p>
 <p>由于通讯消息被替换，Alice计算出的秘钥实际上是Alice和Mallory之间协商秘钥：Kam=gA×Tmodp；Bob计算出的秘钥实际上是Bob与Mallory之间协商的秘钥：Kbm=gB×Smodp。如果之后Alice和Bob用他们计算出的秘钥加密任何信息，Mallory截获之后都能够解密得到明文，而且Mallory完全可以伪装成Alice或者Bob给对方发消息。</p>
 <p><strong>六、References</strong></p>
 <p>1、<a href="https://www.cis.upenn.edu/~nadiah/courses/cis800-02-f13/readings/diffie-hellman.pdf" target="_blank" rel="noopener">New Directions in Cryptography</a></p>

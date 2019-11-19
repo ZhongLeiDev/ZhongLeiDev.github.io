@@ -16,13 +16,13 @@
 <meta property="og:site_name" content="ZhongLeiDev-Blog">
 <meta property="og:description" content="Simhash的生成及存储 一、背景介绍 根据 Detecting Near-Duplicates for Web Crawling 论文中的介绍，在互联网中有很多网页的内容是一样的，但是它们的网页元素却不是完全相同的。每个域名下的网页总会有一些自己的东西，比如广告、导航栏、网站版权之类的东西，但是对于搜索引擎来讲，只有内容部分才是有意义的，虽然网页元素不同，但是对搜索结果没有任何影响，所以在判定">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;ashgenerate.jpeg">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;hashgenerate.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;simhashstore.png">
-<meta property="og:image" content="d:%5C%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0%5CLocalSavedPath%5Cqq8BAAF6E1B17B7C78701EB47A332B3B7F%5Cf0fe0e20b4504bb9bc2ffa831facb957%5Csimhashont.png">
-<meta property="og:updated_time" content="2019-11-18T12:30:29.150Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;ashgenerate.jpeg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;hashgenerate.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;simhashstore.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;simhashont.png">
+<meta property="og:updated_time" content="2019-11-19T00:54:23.971Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;ashgenerate.jpeg">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;ashgenerate.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="ZhongLeiDev-Blog" type="application/atom+xml">
   
@@ -219,7 +219,7 @@
 <p>大家可以看得出来，相似的文本只有部分 01 串变化了，而普通的hash却不能做到，这个就是局部敏感哈希的魅力。</p>
 <p><strong>四、simhash的生成</strong></p>
 <p>simhash的生成图解如下图：</p>
-<p><img src="https://www.smartonline.net.cn/asserts/ashgenerate.jpeg" alt="img"></p>
+<p><img src="../../../../asserts/ashgenerate.jpeg" alt="img"></p>
 <p>为了更加通俗易懂，采用例子来详解simhash的生成规则。simhash的生成划分为五个步骤：<strong>分词-&gt;hash-&gt;加权-&gt;合并-&gt;降维</strong></p>
 <ul>
 <li>1：分词。首先，判断文本分词，形成这个文章的特征单词。然后，形成去掉噪音词的单词序列。最后，为每个分词加上权重。我们假设权重分为5个级别（1~5），比如：“ 美国“51区”雇员称内部有9架飞碟，曾看见灰色外星人 ” ==&gt; 分词后为 “ 美国（4） 51区（5） 雇员（3） 称（1） 内部（2） 有（1） 9架（3） 飞碟（5） 曾（1） 看见（3） 灰色（4） 外星人（5）”，括号里是代表单词在整个句子里重要程度，数字越大越重要。</li>
@@ -229,7 +229,7 @@
 <li>5：降维。把第4步算出来的 “9 -9 1 -1 1 9” 变成 0 1 串，形成我们最终的simhash签名。 如果每一位大于0 记为 1，小于或等于0 则记为 0。最后算出结果为：“1 0 1 0 1 1”。</li>
 </ul>
 <p>整个过程的流程图为：</p>
-<p><img src="https://www.smartonline.net.cn/asserts/hashgenerate.png" alt="img"></p>
+<p><img src="../../../../asserts/hashgenerate.png" alt="img"></p>
 <p><strong>五、simhash分表存储策略</strong></p>
 <p>在线上查询算法中，首先建立多个指纹表:T1，T2，√…，Tt。每个指纹表 Ti 关联两个未知数：一个整型pi和一个在f bit-positions上的排列πi，Ti就是对已经存在的所有指纹进行排列πi得到的有序集合。对于一个指纹f和一个整数k，算法分两个步骤：</p>
 <ul>
@@ -245,7 +245,7 @@
 <p>3.10个表：将64bit分成 13，13，13，13，12 五个bit快。根据排列组合，需要从5块中找到2个作为leading bits，共有C(5,2)=10种找法，需要10张表，而pi=25或26。一次嗅探平均需要检索2^(34-25)=512个指纹。</p>
 <p>4.4个表：同理 64 等分为4份，每份16bit，从四份中找出1个leading bits，共有C(4,1)=4种找法，pi=16,一次嗅探平均需要检索2^(34-16)=256K个指纹。</p>
 <p><strong>分表存储实现</strong></p>
-<p><img src="https://www.smartonline.net.cn/asserts/simhashstore.png" alt="img"></p>
+<p><img src="../../../../asserts/simhashstore.png" alt="img"></p>
 <p>存储：</p>
 <p>　　1、将一个64位的simhash签名拆分成4个16位的二进制码。（图上红色的16位）</p>
 <p>　　2、分别拿这4个16位二进制码查找当前对应位置上是否有元素。（放大后的16位）</p>
@@ -259,7 +259,7 @@
 <p><strong>最佳分表策略</strong></p>
 <p>根据 4.2节分表存储设计，给定 f,k 我们可以有很多种分表的方式，增加表的个数会减少检索时间，但是会增加内存的消耗，相反的，减少表的个数，会减少内存的压力，但是会增加检索时间。</p>
 <p>根据google大量的实验，存在一个分表策略满足时间和空间的平衡点</p>
-<p><img src="D:%5C%E6%9C%89%E9%81%93%E4%BA%91%E7%AC%94%E8%AE%B0%5CLocalSavedPath%5Cqq8BAAF6E1B17B7C78701EB47A332B3B7F%5Cf0fe0e20b4504bb9bc2ffa831facb957%5Csimhashont.png" alt="img"></p>
+<p><img src="../../../../asserts/simhashont.png" alt="img"></p>
 <p>τ=d-pi （<strong>pi计算看4.2章节，取最小pi</strong>）</p>
 <p><strong>simhash存储实现(Go)</strong></p>
 <p>国外有一大神用go实现了d=3和6的实现，在他的基础上我实现了d到8的扩展，源码请看<a href="https://github.com/kricen/shstorage" target="_blank" rel="noopener">https://github.com/kricen/shstorage</a></p>

@@ -16,10 +16,10 @@
 <meta property="og:site_name" content="ZhongLeiDev-Blog">
 <meta property="og:description" content="【1】树莓派原始镜像烧录。 【2】中文字库以及中文拼音输入法下载： 启动后，开启Terminal终端，出现提示符时输入： 1sudo apt-get install ttf-wqy-zenhei">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;sQzdd.png">
-<meta property="og:updated_time" content="2019-11-18T07:19:06.087Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;sQzdd.png">
+<meta property="og:updated_time" content="2019-11-19T00:51:45.808Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;sQzdd.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;sQzdd.png">
   
     <link rel="alternative" href="/atom.xml" title="ZhongLeiDev-Blog" type="application/atom+xml">
   
@@ -271,7 +271,7 @@
 <p>If you install the recent Oracle’s JDK for ARM from <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">here</a> (select jdk-8u111-linux-arm32-vfp-hflt.tar.gz), then you will need to download the JavaFX SDK from Gluon’s <a href="http://gluonhq.com/labs/javafxports/get/" target="_blank" rel="noopener">site</a> (select JavaFX Embedded SDK for armv6 hard float).</p>
 <p>Once you have the file, unzip it, and copy the folders to your JDK.</p>
 <p>Assuming you have downloaded armv6hf-sdk-8.60.8.zip to your Pi/Downloads folder, and you have unzip it to a folder armv6hf-sdk, like in the following picture:</p>
-<p><img src="https://www.smartonline.net.cn/asserts/sQzdd.png" alt="Pi ARM JavaFX"></p>
+<p><img src="../../../../asserts/sQzdd.png" alt="Pi ARM JavaFX"></p>
 <p>using the following commands will allow you moving from command line the files to the JDK required folders. You can use a graphic tool for this as well.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd Downloads </span><br><span class="line">sudo chown -R root:root armv6hf-sdk </span><br><span class="line">cd armv6hf-sdk </span><br><span class="line">sudo mv lib/javafx-mx.jar /opt/jdk1.8.0_111/lib/ </span><br><span class="line">cd rt/lib/ </span><br><span class="line">sudo mv j* /opt/jdk1.8.0_111/jre/lib/ </span><br><span class="line">sudo mv arm/* /opt/jdk1.8.0_111/jre/lib/arm/ </span><br><span class="line">sudo mv ext/* /opt/jdk1.8.0_111/jre/lib/ext/</span><br></pre></td></tr></table></figure>
 
