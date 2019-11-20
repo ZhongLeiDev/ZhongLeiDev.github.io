@@ -79,13 +79,21 @@
 
 
 
+<meta name="description" content="给亲爱的编的   	html { 		overflow: hidden; 	} 	body { 		background: #222; 		width: 100%; 		height: 100%; 		cursor: crosshair; 	} 	.spanSlide { 		position: absolute; 		background: #000; 		font-size: 1p">
 <meta property="og:type" content="website">
-<meta property="og:title" content="相册初始化页面">
+<meta property="og:title" content="ZhongLeiDev">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;albums&#x2F;index.html">
 <meta property="og:site_name" content="ZhongLeiDev">
+<meta property="og:description" content="给亲爱的编的   	html { 		overflow: hidden; 	} 	body { 		background: #222; 		width: 100%; 		height: 100%; 		cursor: crosshair; 	} 	.spanSlide { 		position: absolute; 		background: #000; 		font-size: 1p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-20T08:03:58.137Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;pictures&#x2F;1.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;pictures&#x2F;2.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;pictures&#x2F;3.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;pictures&#x2F;4.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;pictures&#x2F;5.jpg">
+<meta property="og:updated_time" content="2019-11-20T11:14:57.642Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;pictures&#x2F;1.jpg">
 
 
 
@@ -121,7 +129,7 @@
 
 
 
-  <title>相册初始化页面 | ZhongLeiDev</title>
+  <title> | ZhongLeiDev</title>
   
 
 
@@ -305,7 +313,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">相册初始化页面</h1>
+	<h1 class="post-title" itemprop="name headline"></h1>
 
 
 
@@ -317,7 +325,157 @@
       <div class="post-body">
         
         
-          
+          <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<title>给亲爱的编的</title>
+<meta http-equiv="imagetoolbar" content="no">
+<style type="text/css">
+	html {
+		overflow: hidden;
+	}
+	body {
+		background: #222;
+		width: 100%;
+		height: 100%;
+		cursor: crosshair;
+	}
+	.spanSlide {
+		position: absolute;
+		background: #000;
+		font-size: 1px;
+		overflow: hidden;
+	}
+	.imgSlide {
+		position: absolute;
+		left: 5%;
+		top: 5%;
+		width: 90%;
+		height: 90%;
+		overflow: hidden;
+	}
+	.txtSlide {
+		position: absolute;
+		top: 5%;
+		left: 50px;
+		width:100%;
+		color:#FFF;
+		font-family: arial, helvetica, verdana, sans-serif;
+		font-weight: bold;
+		font-size:96px;
+		letter-spacing:12px;
+		filter: alpha(opacity=70);
+		-moz-opacity:0.7;
+		opacity:0.7;
+	}
+</style>
+ 
+<script type="text/javascript">
+ 
+var ym=0;
+var ny=0;
+ 
+createElement = function(container, type, param){
+	o=document.createElement(type);
+	for(var i in param)o[i]=param[i];
+	container.appendChild(o);
+	return o;
+}
+ 
+mooz = {
+	O:[],
+	/////////
+	mult:6,
+	nbI:5,
+	/////////
+	rwh:0,
+	imgsrc:0,
+	W:0,
+	H:0,
+ 
+	Xoom:function(N){
+		this.o = createElement(document.getElementById("screen"), "span", {
+			'className':'spanSlide'
+		});
+		img = createElement(this.o, "img", {
+			'className':"imgSlide",
+			'src':mooz.imgsrc[N%mooz.imgsrc.length].src
+		});
+		spa = createElement(this.o, "span", {
+			'className':"imgSlide"
+		});
+		txt = createElement(spa, "span", {
+			'className':"txtSlide",
+			'innerHTML':mooz.imgsrc[N%mooz.imgsrc.length].title
+		});
+		this.N = 10000+N;
+	},
+ 
+	mainloop:function(){
+		with(this){
+			for(i=0; i<mooz.nbI; i++) {
+				O[i].N += (ym-ny)/8000;
+				N = O[i].N%nbI;
+				ti = Math.pow(mult,N);
+				with(O[i].o.style){
+					left   = Math.round((W-(ti*rwh))/(W+ti)*(W*.5))+"px";
+					top    = Math.round((H-ti)/(H+ti)*(H*.5))+"px";
+					zIndex = Math.round(10000-ti*.1);
+					width  = Math.round(ti*rwh)+"px";
+					height = Math.round(ti)+"px";
+				}
+			}
+		}
+		setTimeout("mooz.mainloop();", 16);
+	},
+ 
+	oigres:function(){
+		with(this){
+			W = parseInt(document.getElementById("screen").style.width);
+			H = parseInt(document.getElementById("screen").style.height);
+			imgsrc = document.getElementById("images").getElementsByTagName("img");
+			rwh = imgsrc[0].width/imgsrc[0].height;
+			for(var i=0;i<nbI;i++) O[i] = new Xoom(i);
+			mainloop();
+		}
+	}
+}
+ 
+document.onmousemove = function(e){
+	if(window.event) e=window.event;
+	ym = (e.y || e.clientY);
+	if(ym/2>ny)ny=ym/2;
+}
+ 
+window.onload = function(){
+	ym = ny+50;
+	mooz.oigres();
+}
+ 
+</script>
+</head>
+ 
+<body>
+<div style="position:absolute;left:50%;top:50%">
+	<div style="position:absolute;width:720px;height:560px;left:-360px;top:-280px;background:#fff"></div>
+	<div style="position:absolute;left:-40px;top:-6px;color:#000;font-family:arial;font-size:0.9em">Lording...</div>
+	<div id="screen" style="position:absolute;width:640px;height:480px;left:-320px;top:-240px;overflow:hidden"></div>
+</div>
+ 
+<div id="images" style="visibility:hidden">
+	<img title="" src="../pictures/1.jpg">
+	<img title="" src="../pictures/2.jpg">
+	<img title="" src="../pictures/3.jpg">
+	<img title="" src="../pictures/4.jpg">
+	<img title="" src="https://www.smartonline.net.cn/pictures/5.jpg">
+</div>
+ 
+</body>
+ 
+</html>
+
         
       </div>
       
@@ -401,7 +559,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
