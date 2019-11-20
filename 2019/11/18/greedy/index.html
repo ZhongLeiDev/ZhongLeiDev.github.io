@@ -1,5 +1,392 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>贪婪算法介绍 | ZhongLeiDev</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><meta name="generator" content="Hexo 4.0.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">贪婪算法介绍</h1><a id="logo" href="/.">ZhongLeiDev</a><p class="description">不忘初心，方得始终</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/bookreading/"><i class="fa fa-star"> 读书笔记</i></a><a href="/thinking/"><i class="fa fa-star"> 随笔</i></a><a href="/categories/writing/"><i class="fa fa-star"> 写作</i></a><a href="/albums/"><i class="fa fa-star"> 相册</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">贪婪算法介绍</h1><div class="post-meta">Nov 18, 2019</div><div class="post-content"><p><strong>算法简介</strong></p>
-<p><strong>贪婪算法(贪心算法)是指在对问题进行求解时，在每一步选择中都采取最好或者最优(即最有利)的选择，从而希望能够导致结果是最好或者最优的算法。</strong></p>
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="algorithm," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="算法简介贪婪算法(贪心算法)是指在对问题进行求解时，在每一步选择中都采取最好或者最优(即最有利)的选择，从而希望能够导致结果是最好或者最优的算法。 贪婪算法所得到的结果往往不是最优的结果(有时候会是最优解)，但是都是相对近似(接近)最优解的结果。">
+<meta name="keywords" content="algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="贪婪算法介绍">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;greedy&#x2F;index.html">
+<meta property="og:site_name" content="ZhongLeiDev">
+<meta property="og:description" content="算法简介贪婪算法(贪心算法)是指在对问题进行求解时，在每一步选择中都采取最好或者最优(即最有利)的选择，从而希望能够导致结果是最好或者最优的算法。 贪婪算法所得到的结果往往不是最优的结果(有时候会是最优解)，但是都是相对近似(接近)最优解的结果。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;4b066988419.webp">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;ce3bfe6cde9.webp">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;1505a09f64e.webp">
+<meta property="og:updated_time" content="2019-11-20T08:46:36.065Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;asserts&#x2F;4b066988419.webp">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/18/greedy/"/>
+
+
+
+
+
+  <title>贪婪算法介绍 | ZhongLeiDev</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZhongLeiDev</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心，方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-albums">
+          <a href="/albums" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-picture-o"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-lab">
+          <a href="/lab" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cubes"></i> <br />
+            
+            实验室
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/18/greedy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhongLeiDev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://www.smartonline.net.cn/avatar/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhongLeiDev">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">贪婪算法介绍</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-18T20:57:57+08:00">
+                2019-11-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a><strong>算法简介</strong></h2><p><strong>贪婪算法(贪心算法)是指在对问题进行求解时，在每一步选择中都采取最好或者最优(即最有利)的选择，从而希望能够导致结果是最好或者最优的算法。</strong></p>
 <p><strong>贪婪算法所得到的结果往往不是最优的结果(有时候会是最优解)，但是都是相对近似(接近)最优解的结果。</strong></p>
 <a id="more"></a>
 
@@ -8,16 +395,13 @@
 <li>必须注意的是策略的选择必须具备无后效性，即某个状态的选择不会影响到之前的状态，只与当前状态有关，所以对采用的贪婪的策略一定要仔细分析其是否满足无后效性。</li>
 </ul>
 <p>比如前边介绍的最短路径问题(<a href="https://www.jianshu.com/p/78e674161e54" target="_blank" rel="noopener">广度优先</a>、<a href="https://www.jianshu.com/p/b805e9d1eb5c" target="_blank" rel="noopener">狄克斯特拉</a>)都属于贪婪算法，只是在其问题策略的选择上，刚好可以得到最优解。</p>
-<p><strong>基本思路</strong></p>
-<p>其基本的解题思路为：</p>
+<h2 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a><strong>基本思路</strong></h2><p>其基本的解题思路为：</p>
 <p>1.建立数学模型来描述问题</p>
 <p>2.把求解的问题分成若干个子问题</p>
 <p>3.对每一子问题求解，得到子问题的局部最优解</p>
 <p>4.把子问题对应的局部最优解合成原来整个问题的一个近似最优解</p>
-<p><strong>案例</strong></p>
-<p>这边的案例来自”算法图解”一书</p>
-<p><strong>案例一</strong></p>
-<p>区间调度问题:</p>
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a><strong>案例</strong></h2><p>这边的案例来自”算法图解”一书</p>
+<h3 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a><strong>案例一</strong></h3><p>区间调度问题:</p>
 <p>假设有如下课程，希望尽可能多的将课程安排在一间教室里：</p>
 <table>
 <thead>
@@ -60,8 +444,7 @@
 <p>重复这样做就能找出答案，这边的选择策略便是结束最早且和上一节课不冲突的课进行排序，因为每次都选择结束最早的，所以留给后面的时间也就越多，自然就能排下越多的课了。</p>
 <p>每一节课的选择都是策略内的局部最优解(留给后面的时间最多)，所以最终的结果也是近似最优解(这个案例上就是最优解)。</p>
 <p>(该案例的代码实现，就是一个简单的时间遍历比较过程)</p>
-<p><strong>案例二</strong></p>
-<p>背包问题：有一个背包，容量为35磅 ， 现有如下物品</p>
+<h3 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a><strong>案例二</strong></h3><p>背包问题：有一个背包，容量为35磅 ， 现有如下物品</p>
 <table>
 <thead>
 <tr>
@@ -109,8 +492,7 @@
 <p>(3)每次挑选单位价值最大的(价格/重量),并且最终重量不超出：</p>
 <p>选择: 笔+ 显示器，总价值 200 + 2999 = 3199</p>
 <p>如上最终的结果并不是最优解，在这个案例中贪婪算法并无法得出最优解，只能得到近似最优解,也算是该算法的<strong>局限性之一</strong>。该类问题中需要得到最优解的话可以采取动态规划算法(后续更新，也可以关注我的公众号第一时间获取更新信息)。</p>
-<p><strong>案例三</strong></p>
-<p>集合覆盖问题:</p>
+<h3 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a><strong>案例三</strong></h3><p>集合覆盖问题:</p>
 <p>假设存在如下表的需要付费的广播台，以及广播台信号可以覆盖的地区。</p>
 <p>如何选择最少的广播台，让所有的地区都可以接收到信号。</p>
 <table>
@@ -224,9 +606,7 @@
 </tr>
 </tbody></table>
 <p>此时算法选出的是K1, K2, K3, K5，符合覆盖了全部的地区，可能不是预期中的K2, K3,K4,K5(也许预期中的更便宜，更便于实施等等)</p>
-<p><strong>NP完全问题</strong></p>
-<p>案例四:</p>
-<p>旅行商问题</p>
+<h2 id="NP完全问题"><a href="#NP完全问题" class="headerlink" title="NP完全问题"></a><strong>NP完全问题</strong></h2><h3 id="案例四"><a href="#案例四" class="headerlink" title="案例四"></a><strong>案例四</strong></h3><p>旅行商问题</p>
 <p>假设有旅行商需要从下面三个城市的某一个城市出发，如何规划路线获取行程的最短路径。</p>
 <p><img src="../../../../asserts/1505a09f64e.webp" alt="img"></p>
 <p>存在3！(阶乘)=6种可能情况:</p>
@@ -282,21 +662,18 @@
 </tr>
 </tbody></table>
 <p>类似上述集合覆盖问题、旅行商问题，都属于NP完全问题，在数学领域上并没有快速得到最优解的方案，贪婪算法是最适合处理这类问题的了。</p>
-<p><strong>如何判断是NP完全问题的:</strong></p>
-<p>1.元素较少时，一般运行速度很快，但随着元素数量增多，速度会变得非常慢</p>
+<h2 id="如何判断是NP完全问题的"><a href="#如何判断是NP完全问题的" class="headerlink" title="如何判断是NP完全问题的:"></a><strong>如何判断是NP完全问题的:</strong></h2><p>1.元素较少时，一般运行速度很快，但随着元素数量增多，速度会变得非常慢</p>
 <p>2.涉及到需要计算比较”所有的组合”情况的通常是NP完全问题</p>
 <p>3.无法分割成小问题，必须考虑各种可能的情况。这可能是NP完全问题</p>
 <p>4.如果问题涉及序列（如旅行商问题中的城市序列）且难以解决，它可能就是NP完全问题</p>
 <p>5.如果问题涉及集合（如广播台集合）且难以解决，它可能就是NP完全问题</p>
 <p>6.如果问题可转换为集合覆盖问题或旅行商问题，那它肯定是NP完全问题</p>
-<p><strong>小结</strong></p>
-<p>1.贪婪算法可以寻找局部最优解，并尝试与这种方式获得全局最优解</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a><strong>小结</strong></h2><p>1.贪婪算法可以寻找局部最优解，并尝试与这种方式获得全局最优解</p>
 <p>2.得到的可能是近似最优解，但也可能便是最优解(区间调度问题，最短路径问题(<a href="https://juejin.im/post/5b64630ae51d45190b61d79a" target="_blank" rel="noopener">广度优先</a>、<a href="https://juejin.im/post/5b7000ab6fb9a009bd03cb79" target="_blank" rel="noopener">狄克斯特拉</a>))</p>
 <p>3.对于完全NP问题，目前并没有快速得到最优解的解决方案</p>
 <p>4.面临NP完全问题，最佳的做法就是使用近似算法</p>
 <p>5.贪婪算法(近似算法)在大部分情况下易于实现，并且效率不错</p>
-<p><strong>java实现</strong></p>
-<p>贪婪算法需要根据具体问题，选择对应的策略来实现，所以这边只取集合覆盖问题做个示例：</p>
+<h2 id="JAVA-实现"><a href="#JAVA-实现" class="headerlink" title="JAVA 实现"></a><strong>JAVA 实现</strong></h2><p>贪婪算法需要根据具体问题，选择对应的策略来实现，所以这边只取集合覆盖问题做个示例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">* 贪婪算法 - 集合覆盖问题 </span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span> Administrator </span></span><br><span class="line"><span class="comment">* */</span> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Greedy</span> </span>&#123;        </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;        </span><br><span class="line">        <span class="comment">//初始化广播台信息        </span></span><br><span class="line">        HashMap&lt;String,HashSet&lt;String&gt;&gt; broadcasts = <span class="keyword">new</span>  </span><br><span class="line">            HashMap&lt;String,HashSet&lt;String&gt;&gt;();        </span><br><span class="line">        broadcasts.put(<span class="string">"K1"</span>,  </span><br><span class="line">            <span class="keyword">new</span> HashSet(Arrays.asList(<span class="keyword">new</span> String[]&#123;<span class="string">"ID"</span>,<span class="string">"NV"</span>,<span class="string">"UT"</span>&#125;)));  </span><br><span class="line">        broadcasts.put(<span class="string">"K2"</span>, </span><br><span class="line">            <span class="keyword">new</span> HashSet(Arrays.asList(<span class="keyword">new</span> String[] &#123;<span class="string">"WA"</span>,<span class="string">"ID"</span>,<span class="string">"MT"</span>&#125;)));  </span><br><span class="line">        broadcasts.put(<span class="string">"K3"</span>, </span><br><span class="line">            <span class="keyword">new</span> HashSet(Arrays.asList(<span class="keyword">new</span> String[] &#123;<span class="string">"OR"</span>,<span class="string">"NV"</span>,<span class="string">"CA"</span>&#125;)));  </span><br><span class="line">        broadcasts.put(<span class="string">"K4"</span>, </span><br><span class="line">            <span class="keyword">new</span> HashSet(Arrays.asList(<span class="keyword">new</span> String[] &#123;<span class="string">"NV"</span>,<span class="string">"UT"</span>&#125;)));  </span><br><span class="line">        broadcasts.put(<span class="string">"K5"</span>, </span><br><span class="line">            <span class="keyword">new</span> HashSet(Arrays.asList(<span class="keyword">new</span> String[] &#123;<span class="string">"CA"</span>,<span class="string">"AZ"</span>&#125;)));  </span><br><span class="line">        </span><br><span class="line">        <span class="comment">//需要覆盖的全部地区        </span></span><br><span class="line">        HashSet&lt;String&gt; allAreas = <span class="keyword">new</span> HashSet(Arrays.asList(<span class="keyword">new</span> String[]  </span><br><span class="line">             &#123;<span class="string">"ID"</span>,<span class="string">"NV"</span>,<span class="string">"UT"</span>,<span class="string">"WA"</span>,<span class="string">"MT"</span>,<span class="string">"OR"</span>,<span class="string">"CA"</span>,<span class="string">"AZ"</span>&#125;));   </span><br><span class="line">        </span><br><span class="line">        <span class="comment">//所选择的广播台列表        </span></span><br><span class="line">        List&lt;String&gt; selects = <span class="keyword">new</span> ArrayList&lt;String&gt;();  </span><br><span class="line">        HashSet&lt;String&gt; tempSet = <span class="keyword">new</span> HashSet&lt;String&gt;();        </span><br><span class="line">        String maxKey = <span class="keyword">null</span>;        </span><br><span class="line">        <span class="keyword">while</span>(allAreas.size()!=<span class="number">0</span>) &#123;            </span><br><span class="line">            maxKey = <span class="keyword">null</span>;            </span><br><span class="line">            <span class="keyword">for</span>(String key : broadcasts.keySet()) &#123;  </span><br><span class="line">                tempSet.clear();  </span><br><span class="line">                HashSet&lt;String&gt; areas = broadcasts.get(key);  </span><br><span class="line">                tempSet.addAll(areas);  </span><br><span class="line">                                                   </span><br><span class="line">                <span class="comment">//求出2个集合的交集，此时tempSet会被赋值为交集的内容，所以使用临时变量  </span></span><br><span class="line">                tempSet.retainAll(allAreas);                </span><br><span class="line">                <span class="comment">//如果该集合包含的地区数量比原本的集合多                </span></span><br><span class="line">                <span class="keyword">if</span> (tempSet.size()&gt;<span class="number">0</span> &amp;&amp; (maxKey == <span class="keyword">null</span> || tempSet.size() &gt;  </span><br><span class="line">                                         broadcasts.get(maxKey).size())) &#123;                    </span><br><span class="line">                    maxKey = key;                </span><br><span class="line">                &#125;            </span><br><span class="line">            &#125;                        </span><br><span class="line">            <span class="keyword">if</span> (maxKey != <span class="keyword">null</span>) &#123;</span><br><span class="line">                selects.add(maxKey);  </span><br><span class="line">                allAreas.removeAll(broadcasts.get(maxKey));</span><br><span class="line">            &#125;        </span><br><span class="line">        &#125;        </span><br><span class="line">        System.out.print(<span class="string">"selects:"</span> + selects);     </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>执行完main方法打印信息如下:</p>
@@ -304,4 +681,742 @@
 
 <p>参考：<a href="https://www.cnblogs.com/steven_oyj/archive/2010/05/22/1741375.html" target="_blank" rel="noopener">https://www.cnblogs.com/steven_oyj/archive/2010/05/22/1741375.html</a></p>
 <p>原文链接：<a href="https://www.jianshu.com/p/fede80bad3f1" target="_blank" rel="noopener">https://www.jianshu.com/p/fede80bad3f1</a></p>
-</div><div class="tags"><a href="/tags/algorithm/">algorithm</a></div><div class="post-nav"><a class="next" href="/2019/11/18/sha/">SHA(安全散列算法)简单实现</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/algorithm/" style="font-size: 15px;">algorithm</a> <a href="/tags/concurrent/" style="font-size: 15px;">concurrent</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/tools/" style="font-size: 15px;">tools</a> <a href="/tags/raspberry/" style="font-size: 15px;">raspberry</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/greedy/">贪婪算法介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/sha/">SHA(安全散列算法)简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/diffie-hellman/">Diffie-Hellman（秘钥协商算法）介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/simhash/">Simhash算法介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/disruptor3/">如何使用 Disruptor（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/disruptor2/">如何使用Disruptor（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/disruptor1/">如何使用Disruptor（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/TF-IDF/">TF-IDF算法介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/useful-website/">工具网站收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/11/18/raspberry-blog1/">树莓派镜像制作</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">ZhongLeiDev.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/18/sha/" rel="next" title="SHA(安全散列算法)简单实现">
+                <i class="fa fa-chevron-left"></i> SHA(安全散列算法)简单实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/19/wing1/" rel="prev" title="WING">
+                WING <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://www.smartonline.net.cn/avatar/myavatar.jpg"
+                alt="ZhongLeiDev" />
+            
+              <p class="site-author-name" itemprop="name">ZhongLeiDev</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ZhongLeiDev" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="zhonglei_scu@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法简介"><span class="nav-number">1.</span> <span class="nav-text">算法简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思路"><span class="nav-number">2.</span> <span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例"><span class="nav-number">3.</span> <span class="nav-text">案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#案例一"><span class="nav-number">3.1.</span> <span class="nav-text">案例一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#案例二"><span class="nav-number">3.2.</span> <span class="nav-text">案例二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#案例三"><span class="nav-number">3.3.</span> <span class="nav-text">案例三</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NP完全问题"><span class="nav-number">4.</span> <span class="nav-text">NP完全问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#案例四"><span class="nav-number">4.1.</span> <span class="nav-text">案例四</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何判断是NP完全问题的"><span class="nav-number">5.</span> <span class="nav-text">如何判断是NP完全问题的:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA-实现"><span class="nav-number">7.</span> <span class="nav-text">JAVA 实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhongLeiDev</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
