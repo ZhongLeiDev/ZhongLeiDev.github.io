@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-23T01:33:40.480Z</updated>
+  <updated>2019-11-23T08:46:14.641Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,103 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《EffectiveJava》</title>
+    <link href="http://yoursite.com/2019/11/23/EffectiveJava/"/>
+    <id>http://yoursite.com/2019/11/23/EffectiveJava/</id>
+    <published>2019-11-23T07:25:42.000Z</published>
+    <updated>2019-11-23T08:46:14.641Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一、基本原则：&quot;&gt;&lt;a href=&quot;#一、基本原则：&quot; class=&quot;headerlink&quot; title=&quot;一、基本原则：&quot;&gt;&lt;/a&gt;&lt;strong&gt;一、基本原则：&lt;/strong&gt;&lt;/h2&gt;&lt;h4 id=&quot;【1】模块的用户永远也不应该被模块的行为所迷惑&quot;&gt;&lt;a href=&quot;#【1】模块的用户永远也不应该被模块的行为所迷惑&quot; class=&quot;headerlink&quot; title=&quot;【1】模块的用户永远也不应该被模块的行为所迷惑&quot;&gt;&lt;/a&gt;【1】模块的用户永远也不应该被模块的行为所迷惑&lt;/h4&gt;&lt;h4 id=&quot;【2】模块要尽可能小，但又不能太小&quot;&gt;&lt;a href=&quot;#【2】模块要尽可能小，但又不能太小&quot; class=&quot;headerlink&quot; title=&quot;【2】模块要尽可能小，但又不能太小&quot;&gt;&lt;/a&gt;【2】模块要尽可能小，但又不能太小&lt;/h4&gt;&lt;h4 id=&quot;【3】代码应该被重用，而不是被拷贝&quot;&gt;&lt;a href=&quot;#【3】代码应该被重用，而不是被拷贝&quot; class=&quot;headerlink&quot; title=&quot;【3】代码应该被重用，而不是被拷贝&quot;&gt;&lt;/a&gt;【3】代码应该被重用，而不是被拷贝&lt;/h4&gt;&lt;h4 id=&quot;【4】模块之间的依赖性应该尽可能地降到最小&quot;&gt;&lt;a href=&quot;#【4】模块之间的依赖性应该尽可能地降到最小&quot; class=&quot;headerlink&quot; title=&quot;【4】模块之间的依赖性应该尽可能地降到最小&quot;&gt;&lt;/a&gt;【4】模块之间的依赖性应该尽可能地降到最小&lt;/h4&gt;&lt;h4 id=&quot;【5】错误应该尽早被检测出来，最好是在编译时刻&quot;&gt;&lt;a href=&quot;#【5】错误应该尽早被检测出来，最好是在编译时刻&quot; class=&quot;headerlink&quot; title=&quot;【5】错误应该尽早被检测出来，最好是在编译时刻&quot;&gt;&lt;/a&gt;【5】错误应该尽早被检测出来，最好是在编译时刻&lt;/h4&gt;
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="book" scheme="http://yoursite.com/tags/book/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设计原本</title>
+    <link href="http://yoursite.com/2019/11/23/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E6%9C%AC/"/>
+    <id>http://yoursite.com/2019/11/23/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E6%9C%AC/</id>
+    <published>2019-11-23T07:22:34.000Z</published>
+    <updated>2019-11-23T08:48:01.281Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;【1】什么是设计？Dorothy
+        
+      
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="book" scheme="http://yoursite.com/tags/book/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>架构之美</title>
+    <link href="http://yoursite.com/2019/11/23/%E6%9E%B6%E6%9E%84%E4%B9%8B%E7%BE%8E/"/>
+    <id>http://yoursite.com/2019/11/23/%E6%9E%B6%E6%9E%84%E4%B9%8B%E7%BE%8E/</id>
+    <published>2019-11-23T07:16:51.000Z</published>
+    <updated>2019-11-23T08:47:39.498Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;【1】形式永远服从功能。&lt;/p&gt;
+&lt;p&gt;【2】好的架构的生成：&lt;/p&gt;
+&lt;p&gt;​    &amp;lt;1&amp;gt;确实进行有意为之的前端设计。&lt;/p&gt;
+&lt;p&gt;​    &amp;lt;2&amp;gt;设计者的素质和经验。&lt;/p&gt;
+&lt;p&gt;​    &amp;lt;3&amp;gt;在开发过程中，保持清晰的设计观点。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="book" scheme="http://yoursite.com/tags/book/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《人月神话》</title>
+    <link href="http://yoursite.com/2019/11/23/%E4%BA%BA%E6%9C%88%E7%A5%9E%E8%AF%9D/"/>
+    <id>http://yoursite.com/2019/11/23/%E4%BA%BA%E6%9C%88%E7%A5%9E%E8%AF%9D/</id>
+    <published>2019-11-23T07:10:52.000Z</published>
+    <updated>2019-11-23T07:21:47.490Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;【1】由一个人来进行问题的分解，其他人给予他所需要的支持，以提高效率和生产力。&lt;/p&gt;
+&lt;p&gt;【2】系统的 体系结构（architecture） 指的是完整和详细的用户接口说明。&lt;/p&gt;
+&lt;p&gt;对于计算机，它是编程手册；对于编译器，它是语言手册；&lt;/p&gt;
+&lt;p&gt;对于控制程序，它是语言和函数调用手册；&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="book" scheme="http://yoursite.com/tags/book/"/>
+    
+  </entry>
   
   <entry>
     <title>WING-剧情大纲</title>
