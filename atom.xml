@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-23T08:46:14.641Z</updated>
+  <updated>2019-11-23T09:02:49.065Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,80 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>《EffectiveJava》</title>
+    <title>《EffectiveJava》（四）</title>
+    <link href="http://yoursite.com/2019/11/23/EffectiveJava3/"/>
+    <id>http://yoursite.com/2019/11/23/EffectiveJava3/</id>
+    <published>2019-11-23T08:57:33.000Z</published>
+    <updated>2019-11-23T09:02:49.065Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;【68】executor-和-task-优先于线程&quot;&gt;&lt;a href=&quot;#【68】executor-和-task-优先于线程&quot; class=&quot;headerlink&quot; title=&quot;【68】executor 和 task 优先于线程&quot;&gt;&lt;/a&gt;【68】executor 和 task 优先于线程&lt;/h4&gt;&lt;p&gt;创建工作队列：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ExecutorService executor = Executors.newSingleThreadExecutor()；&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;executor.execute(runnable)；&lt;span class=&quot;comment&quot;&gt;//执行提交一个 runnable 方法&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;executor.shutdown()；&lt;span class=&quot;comment&quot;&gt;//优雅地终止&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="book" scheme="http://yoursite.com/tags/book/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《EffectiveJava》（三）</title>
+    <link href="http://yoursite.com/2019/11/23/EffectiveJava2/"/>
+    <id>http://yoursite.com/2019/11/23/EffectiveJava2/</id>
+    <published>2019-11-23T08:57:22.000Z</published>
+    <updated>2019-11-23T09:02:24.899Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;【47】了解和使用库&quot;&gt;&lt;a href=&quot;#【47】了解和使用库&quot; class=&quot;headerlink&quot; title=&quot;【47】了解和使用库&quot;&gt;&lt;/a&gt;【47】了解和使用库&lt;/h4&gt;&lt;p&gt;不要重复发明轮子。一般而言，类库的代码可能比你自己编写的代码更好一些，并且会随着时间的推移不断改进。从经济角度的分析表明：类库代码受到的关注远远超过大多数普通程序员在同样的功能上所能够给予的投入。&lt;/p&gt;
+&lt;p&gt;强烈需要了解的类库：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;java.lang&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;java.util&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;java.io&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="book" scheme="http://yoursite.com/tags/book/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《EffectiveJava》（二）</title>
+    <link href="http://yoursite.com/2019/11/23/EffectiveJava1/"/>
+    <id>http://yoursite.com/2019/11/23/EffectiveJava1/</id>
+    <published>2019-11-23T08:57:10.000Z</published>
+    <updated>2019-11-23T09:05:01.146Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;【27】优先考虑泛型方法&quot;&gt;&lt;a href=&quot;#【27】优先考虑泛型方法&quot; class=&quot;headerlink&quot; title=&quot;【27】优先考虑泛型方法&quot;&gt;&lt;/a&gt;【27】优先考虑泛型方法&lt;/h4&gt;&lt;p&gt;静态工具方法尤其适合泛型化。如实现构造器：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &amp;lt;V，K&amp;gt; HashMap&amp;lt;V，K&amp;gt; newHashMap() &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; HashMap&amp;lt;K，V&amp;gt;()；&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="book" scheme="http://yoursite.com/tags/book/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《EffectiveJava》（一）</title>
     <link href="http://yoursite.com/2019/11/23/EffectiveJava/"/>
     <id>http://yoursite.com/2019/11/23/EffectiveJava/</id>
     <published>2019-11-23T07:25:42.000Z</published>
-    <updated>2019-11-23T08:46:14.641Z</updated>
+    <updated>2019-11-23T09:04:39.864Z</updated>
     
     <summary type="html">
     
@@ -42,17 +111,12 @@
     <link href="http://yoursite.com/2019/11/23/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E6%9C%AC/"/>
     <id>http://yoursite.com/2019/11/23/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E6%9C%AC/</id>
     <published>2019-11-23T07:22:34.000Z</published>
-    <updated>2019-11-23T08:48:01.281Z</updated>
+    <updated>2019-11-23T08:54:59.851Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;【1】什么是设计？Dorothy
-        
-      
+      &lt;p&gt;【1】什么是设计？Dorothy Sayers(英国作家和戏剧家)说设计有三个阶段：概念构造的形成，在真实媒质上的实现，与真正用户的交互。&lt;/p&gt;
+&lt;p&gt;【2】新思想来自于将一门艺术中的领悟联系并应用到另一门艺术中，经理若干次这样的经历而有所悟，脑海里自然就孕育出了“新思想”。——培根&lt;/p&gt;
     
     </summary>
     
@@ -390,26 +454,6 @@
       <category term="raspberry" scheme="http://yoursite.com/tags/raspberry/"/>
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2019/11/18/hello-world/"/>
-    <id>http://yoursite.com/2019/11/18/hello-world/</id>
-    <published>2019-11-18T02:02:50.485Z</published>
-    <updated>2019-11-18T07:27:27.737Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&quot;My New Post&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
     
   </entry>
   
