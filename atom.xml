@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ZhongLeiDev</title>
+  
+  <subtitle>不忘初心，方得始终</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2019-11-22T05:33:44.859Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>ZhongLeiDev</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WING</title>
+    <link href="http://yoursite.com/2019/11/19/wing1/"/>
+    <id>http://yoursite.com/2019/11/19/wing1/</id>
+    <published>2019-11-19T01:04:14.000Z</published>
+    <updated>2019-11-22T05:33:44.859Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="写作" scheme="http://yoursite.com/categories/%E5%86%99%E4%BD%9C/"/>
+    
+    
+      <category term="novel" scheme="http://yoursite.com/tags/novel/"/>
+    
+      <category term="wing" scheme="http://yoursite.com/tags/wing/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>贪婪算法介绍</title>
+    <link href="http://yoursite.com/2019/11/18/greedy/"/>
+    <id>http://yoursite.com/2019/11/18/greedy/</id>
+    <published>2019-11-18T12:57:57.000Z</published>
+    <updated>2019-11-20T08:46:36.065Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;算法简介&quot;&gt;&lt;a href=&quot;#算法简介&quot; class=&quot;headerlink&quot; title=&quot;算法简介&quot;&gt;&lt;/a&gt;&lt;strong&gt;算法简介&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;贪婪算法(贪心算法)是指在对问题进行求解时，在每一步选择中都采取最好或者最优(即最有利)的选择，从而希望能够导致结果是最好或者最优的算法。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;贪婪算法所得到的结果往往不是最优的结果(有时候会是最优解)，但是都是相对近似(接近)最优解的结果。&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="algorithm" scheme="http://yoursite.com/tags/algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SHA(安全散列算法)简单实现</title>
+    <link href="http://yoursite.com/2019/11/18/sha/"/>
+    <id>http://yoursite.com/2019/11/18/sha/</id>
+    <published>2019-11-18T12:42:00.000Z</published>
+    <updated>2019-11-18T13:20:09.270Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;摘要算法：SHA 及 Java 实现样例&lt;/p&gt;
+&lt;p&gt;SHA = 安全散列算法（Secure Hash Algorithm）。&lt;/p&gt;
+&lt;p&gt;SHA 与 MD5 类似，都是单向不可逆散列函数，用于计算消息摘要，生成消息数字签名（指纹）。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="algorithm" scheme="http://yoursite.com/tags/algorithm/"/>
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Diffie-Hellman（秘钥协商算法）介绍</title>
+    <link href="http://yoursite.com/2019/11/18/diffie-hellman/"/>
+    <id>http://yoursite.com/2019/11/18/diffie-hellman/</id>
+    <published>2019-11-18T12:35:06.000Z</published>
+    <updated>2019-11-19T00:48:49.698Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;一、概述&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Diffie-Hellman密钥协商算法主要解决秘钥配送问题，本身并非用来加密用的；该算法其背后有对应数学理论做支撑，简单来讲就是构造一个复杂的计算难题，使得对该问题的求解在现实的时间内无法快速有效的求解（&lt;em&gt;computationally infeasible&lt;/em&gt; ）。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="algorithm" scheme="http://yoursite.com/tags/algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Simhash算法介绍</title>
+    <link href="http://yoursite.com/2019/11/18/simhash/"/>
+    <id>http://yoursite.com/2019/11/18/simhash/</id>
+    <published>2019-11-18T12:20:56.000Z</published>
+    <updated>2019-11-19T00:54:23.971Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;Simhash的生成及存储&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;一、背景介绍&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;根据 &lt;em&gt;Detecting Near-Duplicates for Web Crawling&lt;/em&gt; 论文中的介绍，在互联网中有很多网页的内容是一样的，但是它们的网页元素却不是完全相同的。每个域名下的网页总会有一些自己的东西，比如广告、导航栏、网站版权之类的东西，但是对于搜索引擎来讲，只有内容部分才是有意义的，虽然网页元素不同，但是对搜索结果没有任何影响，所以在判定内容是否重复的时候，应该忽视后面的部分。当新爬取的内容和数据库中的某个网页的内容一样的时候，就称其为Near-Duplicates（重复文章）。对于重复文章，不应再执行入库操作，这种操作的优点是(A)节省带宽、(B)节省磁盘、(C)减轻服务器负荷以及(D)去除相似文章噪点干扰，提升索引的质量。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="algorithm" scheme="http://yoursite.com/tags/algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何使用 Disruptor（三）</title>
+    <link href="http://yoursite.com/2019/11/18/disruptor3/"/>
+    <id>http://yoursite.com/2019/11/18/disruptor3/</id>
+    <published>2019-11-18T12:03:12.000Z</published>
+    <updated>2019-11-19T00:50:59.661Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;写入 Ringbuffer&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;本文的重点是：不要让 Ring 重叠；如何通知消费者；生产者一端的批处理；以及多个生产者如何协同工作。&lt;/p&gt;
+&lt;p&gt;作者：Trisha 廖涵译&lt;/p&gt;
+&lt;p&gt;这是 Disruptor 全方位解析（end-to-end view）中缺少的一章。当心，本文非常长。但是为了让你能联系上下文阅读，我还是决定把它们写进一篇博客里。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="concurrent" scheme="http://yoursite.com/tags/concurrent/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何使用Disruptor（二）</title>
+    <link href="http://yoursite.com/2019/11/18/disruptor2/"/>
+    <id>http://yoursite.com/2019/11/18/disruptor2/</id>
+    <published>2019-11-18T11:57:31.000Z</published>
+    <updated>2019-11-19T00:49:59.458Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;从Ringbuffer读取数据&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;从上一篇文章中我们都了解了什么是Ring Buffer以及它是如何的特别。但遗憾的是，我还没有讲述如何使用Disruptor向Ring Buffer写数据和从Ring Buffer中读取数据。&lt;/p&gt;
+&lt;p&gt;从上一篇文章中我们都了解了什么是&lt;strong&gt;Ring Buffer&lt;/strong&gt;以及它是如何的特别。但遗憾的是，我还没有讲述如何使用&lt;strong&gt;Disruptor&lt;/strong&gt;向&lt;strong&gt;Ring Buffer&lt;/strong&gt;写数据和从&lt;strong&gt;Ring Buffer&lt;/strong&gt;中读取数据。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="concurrent" scheme="http://yoursite.com/tags/concurrent/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何使用Disruptor（一）</title>
+    <link href="http://yoursite.com/2019/11/18/disruptor1/"/>
+    <id>http://yoursite.com/2019/11/18/disruptor1/</id>
+    <published>2019-11-18T11:35:08.000Z</published>
+    <updated>2019-11-19T00:49:31.187Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;Ringbuffer的特别之处&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先介绍ringbuffer。我对Disruptor的最初印象就是ringbuffer。但是后来我意识到尽管ringbuffer是整个模式（Disruptor）的核心，但是Disruptor对ringbuffer的访问控制策略才是真正的关键点所在。&lt;/p&gt;
+&lt;p&gt;作者：Trisha 寒桐译&lt;/p&gt;
+&lt;p&gt;最近，我们开源了LMAX Disruptor， 它是我们的交易系统吞吐量快（LMAX是一个新型的交易平台，&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="concurrent" scheme="http://yoursite.com/tags/concurrent/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TF-IDF算法介绍</title>
+    <link href="http://yoursite.com/2019/11/18/TF-IDF/"/>
+    <id>http://yoursite.com/2019/11/18/TF-IDF/</id>
+    <published>2019-11-18T11:14:08.000Z</published>
+    <updated>2019-11-19T00:55:01.350Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;TF-IDF是什么&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;TF-IDF是一种统计方法，用以评估一个词对于一篇文章或语料库中一篇文章的重要性。字词的重要性随着它在文件中出现的次数成正比增加，但同时会随着它在语料库中出现的频率成反比下降。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TF-IDF的使用场景&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;TF-IDF加权的各种形式常被搜索引擎应用，作为文件与用户查询之间相关程度的度量或评级。除了TF-IDF以外，因特网上的搜索引擎还会使用基于链接分析的评级方法，以确定文件在搜寻结果中出现的顺序。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="algorithm" scheme="http://yoursite.com/tags/algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>工具网站收藏</title>
+    <link href="http://yoursite.com/2019/11/18/useful-website/"/>
+    <id>http://yoursite.com/2019/11/18/useful-website/</id>
+    <published>2019-11-18T08:28:03.000Z</published>
+    <updated>2019-11-19T00:55:23.613Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;Part1:前端工具&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;【1】字体图标生成网站：IconMoon：&lt;a href=&quot;https://icomoon.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://icomoon.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;【2】reset 和 globle CSS：&lt;a href=&quot;https://meyeerweb.com/eric/tools/css/reset/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://meyerweb.com/eric/tools/css/reset/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;【3】阿里巴巴矢量图标库：&lt;a href=&quot;https://www.iconfont.cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.iconfont.cn/&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="tools" scheme="http://yoursite.com/tags/tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>树莓派镜像制作</title>
+    <link href="http://yoursite.com/2019/11/18/raspberry-blog1/"/>
+    <id>http://yoursite.com/2019/11/18/raspberry-blog1/</id>
+    <published>2019-11-18T05:21:43.000Z</published>
+    <updated>2019-11-19T00:51:45.808Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;【1】树莓派原始镜像烧录。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;【2】中文字库以及中文拼音输入法下载：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;启动后，开启Terminal终端，出现提示符时输入：&lt;/p&gt;
+&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install ttf-wqy-zenhei&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="raspberry" scheme="http://yoursite.com/tags/raspberry/"/>
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2019/11/18/hello-world/"/>
+    <id>http://yoursite.com/2019/11/18/hello-world/</id>
+    <published>2019-11-18T02:02:50.485Z</published>
+    <updated>2019-11-18T07:27:27.737Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&quot;My New Post&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>
