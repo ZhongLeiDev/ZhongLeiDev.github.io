@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-22T05:33:44.859Z</updated>
+  <updated>2019-11-23T01:33:40.480Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,53 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>WING</title>
+    <title>WING-剧情大纲</title>
+    <link href="http://yoursite.com/2019/11/23/wing3/"/>
+    <id>http://yoursite.com/2019/11/23/wing3/</id>
+    <published>2019-11-23T01:32:20.000Z</published>
+    <updated>2019-11-23T01:33:40.480Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="写作" scheme="http://yoursite.com/categories/%E5%86%99%E4%BD%9C/"/>
+    
+    
+      <category term="novel" scheme="http://yoursite.com/tags/novel/"/>
+    
+      <category term="wing" scheme="http://yoursite.com/tags/wing/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WING-世界观</title>
+    <link href="http://yoursite.com/2019/11/23/wing2/"/>
+    <id>http://yoursite.com/2019/11/23/wing2/</id>
+    <published>2019-11-23T01:26:54.000Z</published>
+    <updated>2019-11-23T01:34:04.097Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="写作" scheme="http://yoursite.com/categories/%E5%86%99%E4%BD%9C/"/>
+    
+    
+      <category term="novel" scheme="http://yoursite.com/tags/novel/"/>
+    
+      <category term="wing" scheme="http://yoursite.com/tags/wing/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WING-人设</title>
     <link href="http://yoursite.com/2019/11/19/wing1/"/>
     <id>http://yoursite.com/2019/11/19/wing1/</id>
     <published>2019-11-19T01:04:14.000Z</published>
-    <updated>2019-11-22T05:33:44.859Z</updated>
+    <updated>2019-11-23T01:36:19.763Z</updated>
     
     <summary type="html">
     
