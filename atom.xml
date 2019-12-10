@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.smartonline.net.cn/"/>
-  <updated>2019-11-25T10:30:08.651Z</updated>
+  <updated>2019-12-10T01:20:40.705Z</updated>
   <id>https://www.smartonline.net.cn/</id>
   
   <author>
@@ -15,6 +15,46 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Redis缓存雪崩和缓存击穿</title>
+    <link href="https://www.smartonline.net.cn/2019/12/10/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF/"/>
+    <id>https://www.smartonline.net.cn/2019/12/10/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF/</id>
+    <published>2019-12-10T01:15:25.000Z</published>
+    <updated>2019-12-10T01:20:40.705Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Redis缓存的使用，极大的提升了应用程序的性能和效率，特别是数据查询方面。但同时，它也带来了一些问题。其中，最要害的问题，就是数据的一致性问题，从严格意义上讲，这个问题无解。如果对数据的一致性要求很高，那么就不能使用缓存。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="redis" scheme="https://www.smartonline.net.cn/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis分布式锁的正确实现方式（Java版）</title>
+    <link href="https://www.smartonline.net.cn/2019/12/10/RedisLock/"/>
+    <id>https://www.smartonline.net.cn/2019/12/10/RedisLock/</id>
+    <published>2019-12-10T00:44:51.000Z</published>
+    <updated>2019-12-10T01:13:10.215Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;分布式锁一般有三种实现方式：1. 数据库乐观锁；2. 基于Redis的分布式锁；3. 基于ZooKeeper的分布式锁。本篇博客将介绍第二种方式，基于Redis实现分布式锁。虽然网上已经有各种介绍Redis分布式锁实现的博客，然而他们的实现却有着各种各样的问题，为了避免误人子弟，本篇博客将详细介绍如何正确地实现Redis分布式锁。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="java" scheme="https://www.smartonline.net.cn/tags/java/"/>
+    
+      <category term="redis" scheme="https://www.smartonline.net.cn/tags/redis/"/>
+    
+  </entry>
   
   <entry>
     <title>布隆过滤器</title>
@@ -109,7 +149,7 @@
     <link href="https://www.smartonline.net.cn/2019/11/23/EffectiveJava1/"/>
     <id>https://www.smartonline.net.cn/2019/11/23/EffectiveJava1/</id>
     <published>2019-11-23T08:57:10.000Z</published>
-    <updated>2019-11-23T09:15:34.882Z</updated>
+    <updated>2019-11-26T13:52:45.344Z</updated>
     
     <summary type="html">
     
@@ -409,50 +449,6 @@
     
     
       <category term="concurrent" scheme="https://www.smartonline.net.cn/tags/concurrent/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何使用Disruptor（一）</title>
-    <link href="https://www.smartonline.net.cn/2019/11/18/disruptor1/"/>
-    <id>https://www.smartonline.net.cn/2019/11/18/disruptor1/</id>
-    <published>2019-11-18T11:35:08.000Z</published>
-    <updated>2019-11-19T00:49:31.187Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;Ringbuffer的特别之处&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;首先介绍ringbuffer。我对Disruptor的最初印象就是ringbuffer。但是后来我意识到尽管ringbuffer是整个模式（Disruptor）的核心，但是Disruptor对ringbuffer的访问控制策略才是真正的关键点所在。&lt;/p&gt;
-&lt;p&gt;作者：Trisha 寒桐译&lt;/p&gt;
-&lt;p&gt;最近，我们开源了LMAX Disruptor， 它是我们的交易系统吞吐量快（LMAX是一个新型的交易平台，&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="concurrent" scheme="https://www.smartonline.net.cn/tags/concurrent/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TF-IDF算法介绍</title>
-    <link href="https://www.smartonline.net.cn/2019/11/18/TF-IDF/"/>
-    <id>https://www.smartonline.net.cn/2019/11/18/TF-IDF/</id>
-    <published>2019-11-18T11:14:08.000Z</published>
-    <updated>2019-11-19T00:55:01.350Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;TF-IDF是什么&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;TF-IDF是一种统计方法，用以评估一个词对于一篇文章或语料库中一篇文章的重要性。字词的重要性随着它在文件中出现的次数成正比增加，但同时会随着它在语料库中出现的频率成反比下降。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;TF-IDF的使用场景&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;TF-IDF加权的各种形式常被搜索引擎应用，作为文件与用户查询之间相关程度的度量或评级。除了TF-IDF以外，因特网上的搜索引擎还会使用基于链接分析的评级方法，以确定文件在搜寻结果中出现的顺序。&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="algorithm" scheme="https://www.smartonline.net.cn/tags/algorithm/"/>
     
   </entry>
   
