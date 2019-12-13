@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+  <script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ZhongLeiDev" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="本篇记录一下使用 Fiddler 抓取网站 WebAPI 做一个抓取网页图片的小爬虫程序的大致过程，涉及到的步骤大致有以下几步：  Fiddler 获取网页访问特定网址的动作极其参数和返回，对于 JSON 格式的 WebAPI 返回值进行分析。  通过在线 JSON 转 POJO 工具进行 Java Bean 的生成。  使用 Retrofit2 封装对 WebAPI 的访问，结合SpringBo">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fiddler 简单使用">
+<meta property="og:url" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;2019&#x2F;12&#x2F;10&#x2F;Fiddler&#x2F;index.html">
+<meta property="og:site_name" content="ZhongLeiDev">
+<meta property="og:description" content="本篇记录一下使用 Fiddler 抓取网站 WebAPI 做一个抓取网页图片的小爬虫程序的大致过程，涉及到的步骤大致有以下几步：  Fiddler 获取网页访问特定网址的动作极其参数和返回，对于 JSON 格式的 WebAPI 返回值进行分析。  通过在线 JSON 转 POJO 工具进行 Java Bean 的生成。  使用 Retrofit2 封装对 WebAPI 的访问，结合SpringBo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;image-20191212084609656.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;image-20191212085656079.png">
+<meta property="og:updated_time" content="2019-12-12T05:51:06.343Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;www.smartonline.net.cn&#x2F;asserts&#x2F;image-20191212084609656.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://www.smartonline.net.cn/2019/12/10/Fiddler/"/>
+
+
+
+
+
+  <title>Fiddler 简单使用 | ZhongLeiDev</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZhongLeiDev</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心，方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-albums">
+          <a href="/albums" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-picture-o"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-lab">
+          <a href="/lab" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cubes"></i> <br />
+            
+            实验室
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.smartonline.net.cn/2019/12/10/Fiddler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZhongLeiDev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://www.smartonline.net.cn/avatar/myavatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhongLeiDev">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Fiddler 简单使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-10T14:26:16+08:00">
+                2019-12-10
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-12-12T13:51:06+08:00">
+                2019-12-12
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/12/10/Fiddler/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/12/10/Fiddler/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/12/10/Fiddler/" class="leancloud_visitors" data-flag-title="Fiddler 简单使用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本篇记录一下使用 Fiddler 抓取网站 WebAPI 做一个抓取网页图片的小爬虫程序的大致过程，涉及到的步骤大致有以下几步：</p>
+<ol>
+<li><p>Fiddler 获取网页访问特定网址的动作极其参数和返回，对于 JSON 格式的 WebAPI 返回值进行分析。</p>
+</li>
+<li><p>通过在线 JSON 转 POJO 工具进行 Java Bean 的生成。</p>
+</li>
+<li><p>使用 Retrofit2 封装对 WebAPI 的访问，结合SpringBoot JPA将信息存储到 MySQL 数据库。</p>
+<a id="more"></a>
+</li>
+<li><p>对于未登录状态的 WebAPI 访问，进行 Cookie 的获取以及设置。</p>
+</li>
+<li><p>多线程并发查询，加快数据的获取速度。</p>
+</li>
+<li><p>已获取到的WebAPI示例。</p>
+</li>
+</ol>
+<p><strong>一、Fiddler抓取WebAPI接口</strong></p>
+<p>Fiddler是一款网络抓包分析工具，与WireShark一样，都可以抓取主机访问网络的数据流，具体的使用过程网上有很多资料，这里就不详细描述了。</p>
+<p>在这里以下面的网址为例，来分析网站相关页面的WebAPI：</p>
+<p><a href="https://bcy.net/" target="_blank" rel="noopener">https://bcy.net/</a></p>
+<p>打开Fiddler，设置过滤条件，将与我们的目标返回无关的信息过滤掉，然后访问上面的主页，即可在Fiddler界面上看到访问链接以及返回信息：</p>
+<p><img src="../../../../asserts/image-20191212084609656.png" alt="image-20191212084609656"></p>
+<p><strong>二、JSON返回值在线解析生成JavaBean</strong></p>
+<p>双击左侧的访问链接，在右侧就会显示Request和Response，其中Request中有访问的Header详细信息，Response中有返回数据的具体内容。我们这里以JSON数据为例：</p>
+<p><img src="../../../../asserts/image-20191212085656079.png" alt="image-20191212085656079"></p>
+<p>在网上搜索在线JSON转实体类网站，将Response返回的JSON数据输入解析框，设置好Class名称以及包名，生成JavaBean即可下载由JSON转化成的Java POJO，后面就可以使用这些POJO结合Retrofit的Gson解析获取最终的存储对象。</p>
+<p><strong>三、Retrofit2对WebAPI访问的封装，以及SpringBoot JPA 对获取到的结果的存储</strong></p>
+<p>Retrofit2是一个网络访问框架，具体的使用细节网上也有很多资料，这里也不详细展开，下面主要分析大致的使用过程以及遇到的一些问题。</p>
+<p>首先设计访问接口的Service：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BcyRequestService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * RxJava 模式下获取指定的 Tag 标签下的 Works</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> circleId 指定 Tag 的 ID（eg: circle_id=71978）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> since 起始页（eg: since=rec:3）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sortType 排序规则（eg: sort_type=1）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> gridType 单页显示数量（eg: grid_type=10）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> JsonBean</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GET</span>(<span class="string">"common/circleFeed"</span>)</span><br><span class="line">    <span class="function">Observable&lt;TagsAnalyResult&gt; <span class="title">getBcyTagDetail</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            @Query(<span class="string">"circle_id"</span>)</span> String circleId,</span></span><br><span class="line"><span class="function">            @<span class="title">Query</span><span class="params">(<span class="string">"since"</span>)</span> String since,</span></span><br><span class="line"><span class="function">            @<span class="title">Query</span><span class="params">(<span class="string">"sort_type"</span>)</span> String sortType,</span></span><br><span class="line"><span class="function">            @<span class="title">Query</span><span class="params">(<span class="string">"grid_type"</span>)</span> String gridType</span></span><br><span class="line"><span class="function">    )</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取指定的 Tag 标签下的 Works</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> circleId 指定 Tag 的 ID（eg: circle_id=71978）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> since 起始页（eg: since=rec:3）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sortType 排序规则（eg: sort_type=1）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> gridType 单页显示数量（eg: grid_type=10）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> JsonBean</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GET</span>(<span class="string">"common/circleFeed"</span>)</span><br><span class="line">    <span class="function">Call&lt;TagsAnalyResult&gt; <span class="title">getBcyTagDetailCommon</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            @Query(<span class="string">"circle_id"</span>)</span> String circleId,</span></span><br><span class="line"><span class="function">            @<span class="title">Query</span><span class="params">(<span class="string">"since"</span>)</span> String since,</span></span><br><span class="line"><span class="function">            @<span class="title">Query</span><span class="params">(<span class="string">"sort_type"</span>)</span> String sortType,</span></span><br><span class="line"><span class="function">            @<span class="title">Query</span><span class="params">(<span class="string">"grid_type"</span>)</span> String gridType</span></span><br><span class="line"><span class="function">    )</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后对Retrofit2客户端进行初始化：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initRetrofitAPI</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">                <span class="comment">// 设置OKHttpClient,如果不设置会提供一个默认的</span></span><br><span class="line">                .client(getClient())</span><br><span class="line">                <span class="comment">//设置baseUrl</span></span><br><span class="line">                .baseUrl(BASE_API_URL)</span><br><span class="line">                <span class="comment">//添加Gson转换器</span></span><br><span class="line">                .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</span><br><span class="line">                .build();</span><br><span class="line">        bcyApiService = retrofit.create(BcyRequestService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的 getClient() 方法是自定义的一个HttpClient，主要是针对Cookie的获取与设置进行了一些修改：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 初始化 OkHttpClient</span></span><br><span class="line"><span class="comment">     *添加Cookie拦截器</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> OkHttpClient <span class="title">getClient</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        OkHttpClient.Builder client = <span class="keyword">new</span> OkHttpClient().newBuilder();</span><br><span class="line"></span><br><span class="line">        client.interceptors().add(<span class="keyword">new</span> Interceptor() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> okhttp3.<span class="function">Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="comment">// 获取 Cookie</span></span><br><span class="line">                okhttp3.Response resp = chain.proceed(chain.request());</span><br><span class="line">                List&lt;String&gt; cookies = resp.headers(<span class="string">"Set-Cookie"</span>);</span><br><span class="line">                String cookieStr = <span class="string">""</span>;</span><br><span class="line">                <span class="keyword">if</span> (cookies != <span class="keyword">null</span> &amp;&amp; cookies.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cookies.size(); i++) &#123;</span><br><span class="line">                        cookieStr += cookies.get(i);</span><br><span class="line">                    &#125;</span><br><span class="line">                   log.info(<span class="string">"COOKIE-SET-&gt;"</span> + cookieStr);</span><br><span class="line">                    UserUtil.getSingletonInstance().setCookie(cookieStr.split(<span class="string">";"</span>)[<span class="number">0</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> resp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        client.interceptors().add(<span class="keyword">new</span> Interceptor() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> okhttp3.<span class="function">Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="comment">// 设置 Cookie</span></span><br><span class="line">                String cookieStr = UserUtil.getSingletonInstance().getCookie();</span><br><span class="line">                log.info(<span class="string">"COOKIE-GET-&gt;"</span> + cookieStr);</span><br><span class="line">                <span class="keyword">if</span> (!cookieStr.isEmpty()) &#123;</span><br><span class="line">                    <span class="keyword">return</span> chain.proceed(chain.request().newBuilder().header(<span class="string">"Cookie"</span>, cookieStr).build());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> chain.proceed(chain.request());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        client.connectTimeout(TIMOUT, TimeUnit.MILLISECONDS);</span><br><span class="line">        client.writeTimeout(TIMOUT, TimeUnit.MILLISECONDS);</span><br><span class="line">        client.readTimeout(TIMOUT, TimeUnit.MILLISECONDS);</span><br><span class="line">        <span class="keyword">return</span> client.build();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后进行WebAPI的调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**同步访问*/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getBcyTagDetailsCommon</span><span class="params">(String id, <span class="keyword">int</span> page, BcyCallback&lt;Picture&gt; callback)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        Call&lt;TagsAnalyResult&gt; call = bcyApiService.getBcyTagDetailCommon(id,<span class="string">"rec:"</span>+ String.valueOf(page), <span class="string">"1"</span>, <span class="string">"10"</span>);</span><br><span class="line">        <span class="keyword">int</span> items_count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (call != <span class="keyword">null</span>) &#123;</span><br><span class="line">            Response&lt;TagsAnalyResult&gt; response = call.execute();</span><br><span class="line">            <span class="keyword">for</span> (Items items : response.body().getData().getItems()) &#123;</span><br><span class="line">                <span class="keyword">for</span> (Image_list img : items.getItem_detail().getImage_list()) &#123;</span><br><span class="line">                    Picture picture = <span class="keyword">new</span> Picture();</span><br><span class="line">                    picture.setUserName(items.getItem_detail().getUname());</span><br><span class="line">                    picture.setUid(String.valueOf(items.getItem_detail().getUid()));</span><br><span class="line">                    picture.setAlbumName(items.getItem_detail().getWork());</span><br><span class="line">                    picture.setAlbumId(String.valueOf(items.getItem_detail().getWid()));</span><br><span class="line">                    picture.setCover(items.getItem_detail().getCover());</span><br><span class="line">                    picture.setStars(items.getItem_detail().getLike_count());</span><br><span class="line">                    StringBuilder tags = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">                    <span class="keyword">for</span> (Post_tags tag : items.getItem_detail().getPost_tags()) &#123;</span><br><span class="line">                        tags.append(tag.getTag_name());</span><br><span class="line">                        tags.append(<span class="string">";"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    picture.setTags(tags.toString());</span><br><span class="line">                    picture.setPath(img.getPath());</span><br><span class="line">                    picture.setOriginPath(covert2OriginPath(img.getPath()));</span><br><span class="line">                    callback.onNet(picture);</span><br><span class="line">                    items_count ++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            callback.onSuccess(<span class="string">"Completed! ItemsCount="</span> + String.valueOf(items_count));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            callback.onFailure(<span class="string">"CallbackBULL-&gt;[since=rec:"</span> + String.valueOf(page) + <span class="string">"; circle_id="</span> + id + <span class="string">"]"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>获取到Picture对象之后就可以进行对象的存储了。</p>
+<p>基本逻辑已经确立，在进行WebAPI查询的过程中可能存在一个比较严重的异常：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com.google.gson.JsonSyntaxException: java.lang.IllegalStateException: Expected a string but was BEGIN_OBJECT at line <span class="number">1</span> column <span class="number">57992</span> path $.data.items[<span class="number">19</span>].item_detail.replies[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<p>这个异常产生的原因是：在使用JSON字符串产生JavaBean时：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Item_detail</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String item_id;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> uid;</span><br><span class="line">    <span class="keyword">private</span> String uname;</span><br><span class="line">    <span class="keyword">private</span> String avatar;</span><br><span class="line">    <span class="keyword">private</span> String odin_uid;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> value_user;</span><br><span class="line">    <span class="keyword">private</span> String vu_description;</span><br><span class="line">    <span class="keyword">private</span> String follow_state;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Rights&gt; rights;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> ctime;</span><br><span class="line">    <span class="keyword">private</span> String type;</span><br><span class="line">    <span class="keyword">private</span> String plain;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> word_count;</span><br><span class="line">    <span class="keyword">private</span> String cover;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Multi&gt; multi;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pic_num;</span><br><span class="line">    <span class="keyword">private</span> String work;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> wid;</span><br><span class="line">    <span class="keyword">private</span> String real_name;</span><br><span class="line">    <span class="keyword">private</span> String work_cover;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Post_tags&gt; post_tags;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> like_count;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> user_liked;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> reply_count;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> share_count;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Props&gt; props;</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; replies;	<span class="comment">//此处存在异常</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> visible_level;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> user_favored;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Image_list&gt; image_list;</span><br><span class="line">    <span class="keyword">private</span> Top_list_detail top_list_detail;</span><br><span class="line">    <span class="keyword">private</span> Extra_properties extra_properties;</span><br><span class="line">    <span class="keyword">private</span> String editor_status;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> repostable;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> repost_count;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> visible_status;</span><br><span class="line">    <span class="keyword">private</span> String visible_status_msg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述 “private List<String> replies;” 参数将Replie类型解析成为了String类型。</p>
+<p>由于我们获取到的JSON返回是用一个特定的Request得到的，所以获取到的JSON字符串中的列表很可能为空，比如像下面的一个列表：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replies : []</span><br></pre></td></tr></table></figure>
+
+<p>这种情况下，Gson就会将replies列表解析成为List<String>。我们不知道列表里面具体的类型是什么，所以当生成的JavaBean中出现String列表的时候就要注意了，绝大部分情况下这个列表不是String列表，而是有一个实体类与之对应，我们能做的就是遇到这个错误的时候找到对应的实体类，并将String列表修改成为对应的实体列表。</p>
+<p>当然，如果已知具体的WebAPI定义，则不存在这个问题。</p>
+<p><strong>四、Cookie设置</strong></p>
+<p>在进行Request访问时，会从服务端获取Cookie，再将Cookie中的用户信息设置到Request的Cookie中，达到认证的功能，以下为Response中获取的Cookie以及Request Header中发送的Cookie示例：</p>
+<p>Request Header:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET https://bcy.net/apiv3/common/hotCircleList?offset=20&amp;_signature=aHtaaAAgEBWDbr3j6eLWfmh7WnAADWO HTTP/1.1</span><br><span class="line">Host: bcy.net</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Referer: https://bcy.net/</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Cookie: tt_webid=6765672592922707470; Hm_lvt_330d168f9714e3aa16c5661e62c00232=1575255918,1575350791,1575681218,1575889227; SLARDAR_WEB_ID=cd3a2238-841b-4e08-b0c1-6e077f3ae418; lang_set=zh; _ga=GA1.2.734520056.1575263761; msh=36tNx_itQKzpF5GLXfBTVteDxk8; passport_auth_status=e3d3ca9ace75ac8ef9c00b53a30bc837%2C; sid_guard=e64f91b94ddd3984e4fbf4fed0d03d12%7C1575266305%7C5184000%7CFri%2C+31-Jan-2020+05%3A58%3A25+GMT; uid_tt=708b99c250828a189dce12014f8aa356; sid_tt=e64f91b94ddd3984e4fbf4fed0d03d12; sessionid=e64f91b94ddd3984e4fbf4fed0d03d12; main_sid=e8e9945d541b8d962ea745142ade2547; __tea_sdk__ssid=undefined; _bcy_user_id=U2FsdGVkX181UhlS1LtAL1QLNCWhGcQ9annTwWC4+Y9epGqhfOuRucw7bG53x39Ir/aB5WPSHpE12Y9e7HPKOh1Qom0CfKObsfqjQV9AkcA=; _csrf_token=156c84b03e3a2808639f8fe166752c11; mobile_set=no</span><br></pre></td></tr></table></figure>
+
+<p>Response Cookie：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Response sent 203 bytes of Cookie data:</span><br><span class="line">	Set-Cookie: _bcy_user_id=U2FsdGVkX19ubdzzra5Tgm3KwME9JQ9OfpCFJv/rkGFYdgwhONE8I/gtcEB50/xfInpY2Mya73UajXPQZ1NGxzKSVUuJLPPseohWU//YKrw=; path=/; expires=Thu, 12 Dec 2019 04:35:24 GMT; domain=.bcy.net; secure; httponly</span><br><span class="line"></span><br><span class="line">Response sent 95 bytes of Cookie data:</span><br><span class="line">	Set-Cookie: mobile_set=no; path=/; expires=Thu, 12 Dec 2019 04:35:24 GMT; domain=.bcy.net; secure; httponly</span><br><span class="line"></span><br><span class="line">Response sent 100 bytes of Cookie data:</span><br><span class="line">	Set-Cookie: tt_webid=6765672592922707470; path=/; expires=Sun, 15 Dec 2019 15:52:12 GMT; domain=.bcy.net; secure</span><br><span class="line"></span><br><span class="line">This response did not contain a P3P Header.</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，我们初次访问一个WebAPI接口的时候，Request Header Cookie中的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_bcy_user_id=U2FsdGVkX181UhlS1LtAL1QLNCWhGcQ9annTwWC4+Y9epGqhfOuRucw7bG53x39Ir/aB5WPSHpE12Y9e7HPKOh1Qom0CfKObsfqjQV9AkcA=; _csrf_token=156c84b03e3a2808639f8fe166752c11;</span><br></pre></td></tr></table></figure>
+
+<p>字段是为空的，需要在Response Cookie中的 “Set-Cookie” 获取，是一种先登录，后访问的模式。具体的设置Request Header Cookie方法以及获取Response Cookie的方法在Retrofit2的初始化getClient()方法里面有详细的过程。</p>
+<p><strong>五、多线程并发查询</strong></p>
+<p>在SpringBoot的入口类开启异步：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableAsync</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BcyappserverApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(BcyappserverApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>之后再需要异步处理的方法上添加异步注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Async</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">asynGetBcyTagDetailPictures</span><span class="params">(String tagId, <span class="keyword">int</span> pageIndex, CountDownLatch countDownLatch)</span> </span>&#123;</span><br><span class="line">        getBcyTagDetailCommon(tagId, pageIndex);</span><br><span class="line">        countDownLatch.countDown();</span><br><span class="line">        log.info(<span class="string">"CountDownLatch --- "</span>+countDownLatch.getCount() + <span class="string">" --- completed!"</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的 CountDownLatch 对象保证多线程访问时所有的线程任务全部处理完毕之后才退出主线程，避免子线程刚开启时主线程退出造成所有的子线程全部退出，任务不能正常执行的情况。</p>
+<p>对于多线程数据存储的情况，将存储方法用 synchronized 加锁：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">savePicture</span><span class="params">(Picture pic)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ( pictureRepository.findByPath(pic.getPath()) == <span class="keyword">null</span>) &#123;</span><br><span class="line">            pictureRepository.save(pic);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>避免数据的重复插入。</p>
+<p><strong>六、已获取到的WebAPI示例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">【1】HotTag获取</span><br><span class="line">https://bcy.net/apiv3/common/hotTags</span><br><span class="line">【2】hotCircleList获取</span><br><span class="line">https://bcy.net/apiv3/common/hotCircleList?offset=20</span><br><span class="line">【3】circle解析</span><br><span class="line">https://bcy.net/apiv3/common/circleFeed?circle_id=71978&amp;since=rec:3&amp;sort_type=1&amp;grid_type=10</span><br><span class="line">【4】用户Works获取</span><br><span class="line">https://bcy.net/apiv3/user/selfPosts?uid=221571</span><br><span class="line">【5】Search搜索</span><br><span class="line">https://bcy.net/search/all?k=%E6%B5%85%E6%B5%85ASAKI</span><br><span class="line">【6】RankWeekly周榜</span><br><span class="line">首页：https://bcy.net/apiv3/rank/list/channelItemInfo?channel_id=6618800694038102275&amp;ttype=cos&amp;sub_type=week</span><br><span class="line">详情页：https://bcy.net/apiv3/rank/list/itemInfo?p=2&amp;ttype=cos&amp;sub_type=week&amp;date=20191202</span><br><span class="line">【7】RankLastDay日榜</span><br><span class="line">首页：https://bcy.net/apiv3/rank/list/channelItemInfo?channel_id=6618800694038102275&amp;ttype=cos&amp;sub_type=lastday</span><br><span class="line">【8】详情页：https://bcy.net/apiv3/rank/list/itemInfo?p=2&amp;ttype=cos&amp;sub_type=lastday&amp;date=20191202</span><br><span class="line">【9】RankNewPeople新人榜</span><br><span class="line">首页：https://bcy.net/apiv3/rank/list/channelItemInfo?channel_id=6618800694038102275&amp;ttype=cos&amp;sub_type=newPeople</span><br><span class="line">详情页：https://bcy.net/apiv3/rank/list/itemInfo?p=2&amp;ttype=cos&amp;sub_type=newPeople&amp;date=20191202</span><br><span class="line">【10】用户作品获取：以最后一个Item的since标记为下一页的请求起始</span><br><span class="line">https://bcy.net/apiv3/user/selfPosts?uid=221571</span><br><span class="line">https://bcy.net/apiv3/user/selfPosts?uid=221571&amp;since=6218245164293447438</span><br><span class="line">https://bcy.net/apiv3/user/selfPosts?uid=221571&amp;since=6168849853523713806</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    <!--去掉自定义的copyright，改为修改系统自带的copyright
+    <div>
+      
+        
+      
+    </div>
+    -->
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/avatar/soutu-qrcode.bmp" alt="ZhongLeiDev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>扫一扫，获取更多信息！</div>
+</div>
+
+      </div>
+    
+
+    <!--修改reward表现形式
+    
+    -->
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    ZhongLeiDev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.smartonline.net.cn/2019/12/10/Fiddler/" title="Fiddler 简单使用">https://www.smartonline.net.cn/2019/12/10/Fiddler/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/10/%E4%B9%A1%E5%9C%9F%E4%B8%AD%E5%9B%BD/" rel="next" title="《乡土中国》">
+                <i class="fa fa-chevron-left"></i> 《乡土中国》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/12/Netty/" rel="prev" title="Netty相关">
+                Netty相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://www.smartonline.net.cn/avatar/myavatar.jpg"
+                alt="ZhongLeiDev" />
+            
+              <p class="site-author-name" itemprop="name">ZhongLeiDev</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ZhongLeiDev" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zhonglei_scu@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.sikiedu.com/" title="Siki学院" target="_blank">Siki学院</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.imooc.com/" title="慕课网" target="_blank">慕课网</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          <div id="music163player">
+   <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=2&id=1325411548&auto=1&height=32">
+   </iframe>
+</div>
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZhongLeiDev</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">51.8k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <!--主页屏蔽分享按钮
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+      -->
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'GVlhwtvGY9xcT18CKlvMwwD0-gzGzoHsz',
+        appKey: 'RLT8GSORSbUmMi5AwRs4OwOC',
+        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("GVlhwtvGY9xcT18CKlvMwwD0-gzGzoHsz", "RLT8GSORSbUmMi5AwRs4OwOC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "middleRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
