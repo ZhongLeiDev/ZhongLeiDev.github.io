@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.smartonline.net.cn/"/>
-  <updated>2019-12-16T07:58:21.271Z</updated>
+  <updated>2019-12-16T08:18:16.261Z</updated>
   <id>https://www.smartonline.net.cn/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MySQL基础</title>
+    <link href="https://www.smartonline.net.cn/2019/12/16/MySQL%E5%9F%BA%E7%A1%80/"/>
+    <id>https://www.smartonline.net.cn/2019/12/16/MySQL%E5%9F%BA%E7%A1%80/</id>
+    <published>2019-12-16T08:10:44.000Z</published>
+    <updated>2019-12-16T08:18:16.261Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt; 关系数据库的几种设计范式介绍&lt;/p&gt;
+&lt;p&gt;1、第一范式（1NF）&lt;/p&gt;
+&lt;p&gt;在任何一个关系数据库中，第一范式（1NF）是对关系模式的基本要求，不满足第一范式（1NF）的数据库就不是关系数据库。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="mysql" scheme="https://www.smartonline.net.cn/tags/mysql/"/>
+    
+  </entry>
   
   <entry>
     <title>Java正则表达式</title>
@@ -219,9 +240,9 @@
     
     
     
-      <category term="redis" scheme="https://www.smartonline.net.cn/tags/redis/"/>
-    
       <category term="java" scheme="https://www.smartonline.net.cn/tags/java/"/>
+    
+      <category term="redis" scheme="https://www.smartonline.net.cn/tags/redis/"/>
     
   </entry>
   
@@ -428,27 +449,6 @@
     
     
       <category term="book" scheme="https://www.smartonline.net.cn/tags/book/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WING-剧情大纲</title>
-    <link href="https://www.smartonline.net.cn/2019/11/23/wing3/"/>
-    <id>https://www.smartonline.net.cn/2019/11/23/wing3/</id>
-    <published>2019-11-23T01:32:20.000Z</published>
-    <updated>2019-11-23T01:33:40.480Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-      <category term="写作" scheme="https://www.smartonline.net.cn/categories/%E5%86%99%E4%BD%9C/"/>
-    
-    
-      <category term="novel" scheme="https://www.smartonline.net.cn/tags/novel/"/>
-    
-      <category term="wing" scheme="https://www.smartonline.net.cn/tags/wing/"/>
     
   </entry>
   
